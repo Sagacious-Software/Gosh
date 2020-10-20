@@ -1,4 +1,4 @@
-# FreakBuf
+# Gosh
 
 Simple and easy to use cross-platform windowing API
 
@@ -13,8 +13,7 @@ how to deal with backends?
 - implicitely choose depending on which is detected?????
 - use env var for this tho
 
-- rename to Gosh !!
-- figure out how to structure abstract backend type
 - eventually do win32 and macos
 - get a good system for handling COLOR !!!!! 
 - figure out the VSYNC
+- fix the thing where X complains when u close the window bc it was already closed or something

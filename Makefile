@@ -17,9 +17,9 @@ OBJECT_DIR_STAMP      = $(OBJECT_DIR)/.dirstamp \
 DEMO_OBJECT_DIR_STAMP = $(DEMO_OBJECT_DIR)/.dirstamp
 BUILD_DIR_STAMP       = $(BUILD_DIR)/.dirstamp
 
-TARGET_STATIC = $(BUILD_DIR)/libfreakbuf.a
-TARGET_SHARED = $(BUILD_DIR)/libfreakbuf.so
-TARGET_DEMO   = $(BUILD_DIR)/freakbuf_demo
+TARGET_STATIC = $(BUILD_DIR)/libgosh.a
+TARGET_SHARED = $(BUILD_DIR)/libgosh.so
+TARGET_DEMO   = $(BUILD_DIR)/gosh_demo
 
 SOURCES        = $(wildcard $(SOURCE_DIR)/*.c $(SOURCE_DIR)/backends/*/*.c)
 DEMO_SOURCES   = $(wildcard $(DEMO_SOURCE_DIR)/*.c)
