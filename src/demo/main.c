@@ -92,7 +92,8 @@ void callback (window_t *window, event_t event) {
 
             /* the (physical) state of the keyboard is tracked for us */
             printf ("The Q key (physical) is currently %s\n",
-                    window->keyboard.keys[KEYBOARD_KEY_Q] ? "DOWN" : "UP");
+                    window->keyboard.keys[KEYBOARD_KEY_Q] == KEYBOARD_KEY_PRESSED
+                    ? "PRESSED" : "RELEASED");
 
             /* but we are also informed of what just changed */
             printf ("The %s key (physical) was %s\n",

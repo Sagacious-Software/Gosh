@@ -158,7 +158,6 @@ void backend_x11_run (backend_x11_t *backend) {
 
             /* TODO: text input */
             /* TODO: mouse drag */
-            /* TODO: mouse enter exit */
 
             default:
                 continue;
