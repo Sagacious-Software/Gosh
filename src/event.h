@@ -7,8 +7,8 @@
 
 typedef enum event_type_t {
 
-    EVENT_OPEN,     /* when the window is initially opened */
-    EVENT_CLOSE,    /* when the window is about to close */
+    EVENT_MAP,      /* when the window is shown */
+    EVENT_UNMAP,    /* when the window is hidden */
     EVENT_EXPOSE,   /* when a region of the window needs to be redrawn */
     EVENT_MOUSE,    /* when the state of the mouse in the window changed */
     EVENT_KEYBOARD, /* when the state of the keyboard in the window changed */
@@ -71,7 +71,7 @@ typedef struct event_t {
         /* the text that was entered for text events */
         const char *text;
 
-    } data;
+    } events;
 
 } event_t;
 

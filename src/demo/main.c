@@ -3,24 +3,26 @@
 
 #include "../window.h"
 
+/*
 void draw_region (buffer_t *buffer, region_t region) {
 
 
 }
+*/
 
 void callback (window_t *window, event_t event) {
 
     switch (event.type) {
 
-        /* when the window is initially opened */
-        case EVENT_OPEN:
+        /* when the window is shown */
+        case EVENT_MAP:
 
             puts ("Hi hi");
 
             break;
         
-        /* when the window is about to closing */
-        case EVENT_CLOSE:
+        /* when the window is hidden */
+        case EVENT_UNMAP:
 
             puts ("Bye bye");
 
@@ -29,7 +31,9 @@ void callback (window_t *window, event_t event) {
         /* when a region of the window needs to be redrawn */
         case EVENT_EXPOSE:
 
-            draw_region (window->buffer, event.data.expose_region);
+            /*
+            draw_region (window->buffer, event.events.expose_region);
+            */
 
             break;
 
@@ -41,7 +45,7 @@ void callback (window_t *window, event_t event) {
                                               window->mouse.position.y);
 
             /* but we are also informed of what just changed */
-            switch (event.data.mouse.type) {
+            switch (event.events.mouse.type) {
 
                 /* when the mouse entered the window */
                 case EVENT_MOUSE_ENTER:
@@ -61,8 +65,8 @@ void callback (window_t *window, event_t event) {
                 case EVENT_MOUSE_MOVE:
 
                     printf ("Mouse was moved to (%d, %d)\n",
-                            event.data.mouse.position.x,
-                            event.data.mouse.position.y);
+                            event.events.mouse.position.x,
+                            event.events.mouse.position.y);
 
                     break;
 
@@ -70,8 +74,8 @@ void callback (window_t *window, event_t event) {
                 case EVENT_MOUSE_BUTTON:
 
                     printf ("Mouse button %s was %s\n",
-                            mouse_button_name (event.data.mouse.button),
-                            event.data.mouse.button_state == MOUSE_BUTTON_RELEASED
+                            mouse_button_name (event.events.mouse.button),
+                            event.events.mouse.button_state == MOUSE_BUTTON_RELEASED
                             ? "PRESSED" : "RELEASED");
 
                     break;
@@ -92,8 +96,8 @@ void callback (window_t *window, event_t event) {
 
             /* but we are also informed of what just changed */
             printf ("The %s key (physical) was %s\n",
-                    keyboard_key_name (event.data.keyboard.key),
-                    event.data.keyboard.key_state == KEYBOARD_KEY_PRESSED
+                    keyboard_key_name (event.events.keyboard.key),
+                    event.events.keyboard.key_state == KEYBOARD_KEY_PRESSED
                     ? "PRESSED" : "RELEASED");
 
             break;
@@ -101,7 +105,7 @@ void callback (window_t *window, event_t event) {
         /* when text is entered in the window */
         case EVENT_TEXT:
 
-            printf ("This was typed: \"%s\"\n", event.data.text);
+            printf ("This was typed: \"%s\"\n", event.events.text);
 
             break;
 
@@ -114,8 +118,9 @@ void callback (window_t *window, event_t event) {
 int main (int argc, char **argv) {
 
     /* create the backend
-     * this automatically decides which backend to use */
-    backend_t *backend = create_backend ();
+     * this automatically decides which backend to use
+     * this also automatically makes the connection */
+    backend_t *backend = create_backend (BACKEND_AUTO);
 
     /* create a window and set the callback */
     window_t *window = create_window (backend, callback);

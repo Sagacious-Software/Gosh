@@ -7,9 +7,13 @@ BUILD_DIR       = build
 
 CC       = cc
 CFLAGS   = -Wall -Werror -Wpedantic -ansi
+LIBS     = x11
+LDFLAGS  = $(shell pkg-config --cflags --libs $(LIBS))
+
 DEBUGGER = gdb
 
-OBJECT_DIR_STAMP      = $(OBJECT_DIR)/.dirstamp
+OBJECT_DIR_STAMP      = $(OBJECT_DIR)/.dirstamp \
+                        $(OBJECT_DIR)/backends/x11/.dirstamp
 DEMO_OBJECT_DIR_STAMP = $(DEMO_OBJECT_DIR)/.dirstamp
 BUILD_DIR_STAMP       = $(BUILD_DIR)/.dirstamp
 
@@ -17,7 +21,7 @@ TARGET_STATIC = $(BUILD_DIR)/libfreakbuf.a
 TARGET_SHARED = $(BUILD_DIR)/libfreakbuf.so
 TARGET_DEMO   = $(BUILD_DIR)/freakbuf_demo
 
-SOURCES        = $(wildcard $(SOURCE_DIR)/*.c)
+SOURCES        = $(wildcard $(SOURCE_DIR)/*.c $(SOURCE_DIR)/backends/*/*.c)
 DEMO_SOURCES   = $(wildcard $(DEMO_SOURCE_DIR)/*.c)
 OBJECTS_STATIC = $(patsubst $(SOURCE_DIR)/%.c,$(OBJECT_DIR)/%_static.o,$(SOURCES))
 OBJECTS_SHARED = $(patsubst $(SOURCE_DIR)/%.c,$(OBJECT_DIR)/%_shared.o,$(SOURCES))
@@ -57,10 +61,10 @@ demo: $(TARGET_DEMO)
 	ar rcs $@ $(filter-out $<,$^)
 
 %.so: $(BUILD_DIR_STAMP) $(OBJECTS_SHARED)
-	$(CC) $(CFLAGS) -shared -o $@ $(filter-out $<,$^)
+	$(CC) $(CFLAGS) -shared -o $@ $(filter-out $<,$^) $(LDFLAGS)
 
 $(TARGET_DEMO): $(BUILD_DIR_STAMP) $(OBJECTS_STATIC) $(OBJECTS_DEMO)
-	$(CC) $(CFLAGS) -o $@ $(filter-out $<,$^)
+	$(CC) $(CFLAGS) -o $@ $(filter-out $<,$^) $(LDFLAGS)
 
 $(OBJECTS_STATIC): $(OBJECT_DIR)/%_static.o: $(SOURCE_DIR)/%.c $(OBJECT_DIR_STAMP) $(DEPENDENCIES)
 	$(CC) $(CFLAGS) -MMD -c -o $@ $<

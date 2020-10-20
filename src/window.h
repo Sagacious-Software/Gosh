@@ -1,6 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include "backends/x11/window.h"
 #include "backend.h"
 #include "buffer.h"
 #include "event.h"
@@ -13,9 +14,6 @@ struct window_t {
     /* the backend the window is associated with */
     backend_t *backend;
 
-    /* TODO: actually not gonna store a buffer at all, it will be IMILICT & PASSED */
-    buffer_t *buffer;
-
     /* the function that is called to handle window events */
     window_callback_t *callback;
 
@@ -23,9 +21,16 @@ struct window_t {
     mouse_t mouse;
     keyboard_t keyboard;
 
+    union {
+
+        window_x11_t *x11;
+
+    } windows;
 };
 
 window_t *create_window (backend_t *backend, window_callback_t *callback);
-window_t *destroy_window (window_t *window);
+void destroy_window (window_t *window);
+
+void handle_event (window_t *window, event_t event);
 
 #endif /* WINDOW_H */
