@@ -7,6 +7,7 @@ It aims to be similar to SDL, but more lightweight, and designed around giving y
 ## questions for myself and todo
 
 how to deal with backends?
+
 - include them all?
 - compile time switches for which to include??
 - require user to specify which it wants???
