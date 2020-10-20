@@ -84,6 +84,36 @@ void backend_x11_run (backend_x11_t *backend) {
 
                 break;
 
+            /* when the mouse is moved in the window */
+            case MotionNotify:
+
+                window_event.type                      = EVENT_MOUSE;
+                window_event.events.mouse.type         = EVENT_MOUSE_MOVE;
+                window_event.events.mouse.position.x   = x11_event.xmotion.x;
+                window_event.events.mouse.position.y   = x11_event.xmotion.y;
+
+                break;
+
+            /* when the mouse enters the window */
+            case EnterNotify:
+
+                window_event.type                      = EVENT_MOUSE;
+                window_event.events.mouse.type         = EVENT_MOUSE_ENTER;
+                window_event.events.mouse.position.x   = x11_event.xmotion.x;
+                window_event.events.mouse.position.y   = x11_event.xmotion.y;
+
+                break;
+
+            /* when the mouse exits the window */
+            case LeaveNotify:
+
+                window_event.type                      = EVENT_MOUSE;
+                window_event.events.mouse.type         = EVENT_MOUSE_EXIT;
+                window_event.events.mouse.position.x   = x11_event.xmotion.x;
+                window_event.events.mouse.position.y   = x11_event.xmotion.y;
+
+                break;
+
             /* when a mouse button is pressed in the window */
             case ButtonPress:
 
@@ -105,16 +135,6 @@ void backend_x11_run (backend_x11_t *backend) {
                 window_event.events.mouse.position.y   = x11_event.xbutton.y;
                 window_event.events.mouse.button       = MOUSE_LEFT; /* TODO */
                 window_event.events.mouse.button_state = MOUSE_BUTTON_RELEASED;
-
-                break;
-
-            /* when the mouse is moved in the window */
-            case MotionNotify:
-
-                window_event.type                      = EVENT_MOUSE;
-                window_event.events.mouse.type         = EVENT_MOUSE_MOVE;
-                window_event.events.mouse.position.x   = x11_event.xmotion.x;
-                window_event.events.mouse.position.y   = x11_event.xmotion.y;
 
                 break;
 

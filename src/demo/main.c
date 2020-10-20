@@ -47,21 +47,21 @@ void callback (window_t *window, event_t event) {
             /* but we are also informed of what just changed */
             switch (event.events.mouse.type) {
 
-                /* when the mouse entered the window */
+                /* when the mouse enters the window */
                 case EVENT_MOUSE_ENTER:
 
                     puts ("Mouse entered the window");
 
                     break;
 
-                /* when the mouse exited the window */
+                /* when the mouse exits the window */
                 case EVENT_MOUSE_EXIT:
 
                     puts ("Mouse exited the window");
 
                     break;
 
-                /* when the mouse was moved */
+                /* when the mouse is moved in the window */
                 case EVENT_MOUSE_MOVE:
 
                     printf ("Mouse was moved to (%d, %d)\n",
@@ -70,7 +70,7 @@ void callback (window_t *window, event_t event) {
 
                     break;
 
-                /* when a mouse button was pressed or released */
+                /* when a mouse button is pressed or released in the window  */
                 case EVENT_MOUSE_BUTTON:
 
                     printf ("Mouse button %s was %s\n",

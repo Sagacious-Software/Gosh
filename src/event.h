@@ -20,10 +20,10 @@ typedef enum event_type_t {
 
 typedef enum mouse_event_type_t {
 
-    EVENT_MOUSE_ENTER,
-    EVENT_MOUSE_EXIT,
-    EVENT_MOUSE_MOVE,
-    EVENT_MOUSE_BUTTON,
+    EVENT_MOUSE_ENTER,  /* when the mouse enters the window */
+    EVENT_MOUSE_EXIT,   /* when the mouse exits the window */
+    EVENT_MOUSE_MOVE,   /* when the mouse is moved in the window */
+    EVENT_MOUSE_BUTTON, /* when a mouse button is pressed or released in the window */
 
     NUM_MOUSE_EVENT_TYPE
 
