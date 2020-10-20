@@ -9,6 +9,7 @@
 backend_x11_t *create_backend_x11 () {
 
     backend_x11_t *backend = malloc (sizeof (backend_x11_t));
+    backend->running = true;
     backend->n_windows = 0;
 
     if (!(backend->display = XOpenDisplay (NULL))) {
@@ -51,7 +52,7 @@ void backend_x11_run (backend_x11_t *backend) {
     XEvent x11_event;
     window_x11_t *window;
 
-    for (;;) {
+    while (backend->running) {
         
         XNextEvent (backend->display, &x11_event);
         window = lookup_window_x11 (backend, x11_event.xany.window);
@@ -165,4 +166,9 @@ void backend_x11_run (backend_x11_t *backend) {
 
         handle_event (window->window, window_event);
     }
+}
+
+void backend_x11_exit (backend_x11_t *backend) {
+
+    backend->running = false;
 }

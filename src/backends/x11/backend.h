@@ -1,6 +1,8 @@
 #ifndef BACKEND_X11_H
 #define BACKEND_X11_H
 
+#include <stdbool.h>
+
 #include <X11/Xlib.h>
 
 #define MAX_WINDOWS 256
@@ -11,6 +13,9 @@ typedef struct backend_x11_t {
 
     /* the connection to the X server */
     Display *display;
+
+    /* stay in the run loop */
+    bool running;
 
     /* windows opened on the server */
     struct window_x11_t *windows[MAX_WINDOWS];
@@ -24,5 +29,6 @@ void destroy_backend_x11 (backend_x11_t *backend);
 void register_window_x11 (backend_x11_t *backend, struct window_x11_t *window);
 
 void backend_x11_run (backend_x11_t *backend);
+void backend_x11_exit (backend_x11_t *backend);
 
 #endif /* BACKEND_X11_H */

@@ -15,9 +15,9 @@ window_x11_t *create_window_x11 (backend_x11_t *backend, window_t *window) {
                                                      0, 0,	200, 300, 5, 0, 0);
 
     XSelectInput (backend->display, window_x11->window_handle,
-                  ExposureMask      | ButtonPressMask | ButtonReleaseMask |
-                  PointerMotionMask | KeyPressMask    | KeyReleaseMask
-                                    | EnterWindowMask | LeaveWindowMask);
+                  ExposureMask        | ButtonPressMask | ButtonReleaseMask |
+                  PointerMotionMask   | KeyPressMask    | KeyReleaseMask |
+                  StructureNotifyMask | EnterWindowMask | LeaveWindowMask);
 
     XMapRaised (backend->display, window_x11->window_handle);
 

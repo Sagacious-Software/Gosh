@@ -28,6 +28,10 @@ typedef struct backend_t {
 backend_t *create_backend (backend_type_t type);
 void destroy_backend (backend_t *backend);
 
+/* enter the run loop */
 void backend_run (backend_t *backend);
+
+/* request to exit the run loop */
+void backend_exit (backend_t *backend);
 
 #endif /* BACKEND_H */

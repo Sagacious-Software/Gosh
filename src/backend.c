@@ -52,3 +52,16 @@ void backend_run (backend_t *backend) {
             break;
     }
 }
+
+void backend_exit (backend_t *backend) {
+
+    switch (backend->type) {
+
+        case BACKEND_X11:
+            backend_x11_exit (backend->backends.x11);
+            break;
+
+        default:
+            break;
+    }
+}

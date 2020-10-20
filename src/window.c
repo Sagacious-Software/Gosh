@@ -1,14 +1,14 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "window.h"
 
 window_t *create_window (backend_t *backend, window_callback_t *callback) {
 
     window_t *window = malloc (sizeof (window_t));
+    memset (window, 0, sizeof (window_t));
     window->backend = backend;
     window->callback = callback;
-
-    /* TODO: init mouse and keyboard state */
 
     switch (backend->type) {
 

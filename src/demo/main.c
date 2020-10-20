@@ -25,6 +25,7 @@ void callback (window_t *window, event_t event) {
         case EVENT_UNMAP:
 
             puts ("Bye bye");
+            backend_exit (window->backend);
 
             break;
 
