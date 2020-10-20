@@ -54,98 +54,91 @@ void backend_x11_run (backend_x11_t *backend) {
     for (;;) {
         
         XNextEvent (backend->display, &x11_event);
+        window = lookup_window_x11 (backend, x11_event.xany.window);
         
         switch (x11_event.type) {
 
-            case MapNotify: {
+            /* when the window is shown */
+            case MapNotify:
 
-                XMapEvent event = x11_event.xmap;
-                window = lookup_window_x11 (backend, event.window);
+                window = lookup_window_x11 (backend, x11_event.xmap.window);
                 window_event.type = EVENT_MAP;
 
                 break;
-            }
 
-            case UnmapNotify: {
+            /* when the window is hidden */
+            case UnmapNotify:
 
-                XUnmapEvent event = x11_event.xunmap;
-                window = lookup_window_x11 (backend, event.window);
                 window_event.type = EVENT_UNMAP;
 
                 break;
-            }
 
-            case Expose: {
-
-                XExposeEvent event = x11_event.xexpose;
-                window = lookup_window_x11 (backend, event.window);
+            /* when a region of the window needs to be redrawn */
+            case Expose:
 
                 window_event.type                              = EVENT_EXPOSE;
-                window_event.events.expose_region.offset.x     = event.x;
-                window_event.events.expose_region.offset.y     = event.y;
-                window_event.events.expose_region.dimensions.x = event.width;
-                window_event.events.expose_region.dimensions.y = event.height;
+                window_event.events.expose_region.offset.x     = x11_event.xexpose.x;
+                window_event.events.expose_region.offset.y     = x11_event.xexpose.y;
+                window_event.events.expose_region.dimensions.x = x11_event.xexpose.width;
+                window_event.events.expose_region.dimensions.y = x11_event.xexpose.height;
 
                 break;
-            }
 
-            case ButtonPress: {
-
-                XButtonPressedEvent event = x11_event.xbutton;
-                window = lookup_window_x11 (backend, event.window);
+            /* when a mouse button is pressed in the window */
+            case ButtonPress:
 
                 window_event.type                      = EVENT_MOUSE;
                 window_event.events.mouse.type         = EVENT_MOUSE_BUTTON;
-                window_event.events.mouse.position.x   = event.x;
-                window_event.events.mouse.position.y   = event.y;
+                window_event.events.mouse.position.x   = x11_event.xbutton.x;
+                window_event.events.mouse.position.y   = x11_event.xbutton.y;
                 window_event.events.mouse.button       = MOUSE_LEFT; /* TODO */
                 window_event.events.mouse.button_state = MOUSE_BUTTON_PRESSED;
 
                 break;
-            }
 
-            case ButtonRelease: {
-
-                XButtonReleasedEvent event = x11_event.xbutton;
-                window = lookup_window_x11 (backend, event.window);
+            /* when a mouse button is released in the window */
+            case ButtonRelease:
 
                 window_event.type                      = EVENT_MOUSE;
                 window_event.events.mouse.type         = EVENT_MOUSE_BUTTON;
-                window_event.events.mouse.position.x   = event.x;
-                window_event.events.mouse.position.y   = event.y;
+                window_event.events.mouse.position.x   = x11_event.xbutton.x;
+                window_event.events.mouse.position.y   = x11_event.xbutton.y;
                 window_event.events.mouse.button       = MOUSE_LEFT; /* TODO */
                 window_event.events.mouse.button_state = MOUSE_BUTTON_RELEASED;
 
                 break;
-            }
 
-            /* TODO: mouse motion */
+            /* when the mouse is moved in the window */
+            case MotionNotify:
 
-            case KeyPress: {
+                window_event.type                      = EVENT_MOUSE;
+                window_event.events.mouse.type         = EVENT_MOUSE_MOVE;
+                window_event.events.mouse.position.x   = x11_event.xmotion.x;
+                window_event.events.mouse.position.y   = x11_event.xmotion.y;
 
-                XKeyPressedEvent event = x11_event.xkey;
-                window = lookup_window_x11 (backend, event.window);
+                break;
+
+            /* when a keyboard key is pressed in the window */
+            case KeyPress:
 
                 window_event.type                      = EVENT_KEYBOARD;
                 window_event.events.keyboard.key       = KEYBOARD_KEY_Q; /* TODO */
                 window_event.events.keyboard.key_state = KEYBOARD_KEY_PRESSED;
 
                 break;
-            }
 
-            case KeyRelease: {
-
-                XKeyReleasedEvent event = x11_event.xkey;
-                window = lookup_window_x11 (backend, event.window);
+            /* when a keyboard key is released in the window */
+            case KeyRelease:
 
                 window_event.type                      = EVENT_KEYBOARD;
                 window_event.events.keyboard.key       = KEYBOARD_KEY_Q; /* TODO */
                 window_event.events.keyboard.key_state = KEYBOARD_KEY_RELEASED;
 
                 break;
-            }
 
             /* TODO: text input */
+            /* TODO: mouse drag */
+            /* TODO: mouse enter exit */
 
             default:
                 continue;

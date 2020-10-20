@@ -75,7 +75,7 @@ void callback (window_t *window, event_t event) {
 
                     printf ("Mouse button %s was %s\n",
                             mouse_button_name (event.events.mouse.button),
-                            event.events.mouse.button_state == MOUSE_BUTTON_RELEASED
+                            event.events.mouse.button_state == MOUSE_BUTTON_PRESSED
                             ? "PRESSED" : "RELEASED");
 
                     break;
