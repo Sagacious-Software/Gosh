@@ -3,7 +3,10 @@
 
 #include "window.h"
 
-window_t *create_window (backend_t *backend, window_callback_t *callback) {
+window_t *create_window (backend_t *backend,
+                         window_callback_t *callback,
+                         region_t region,
+                         char *title) {
 
     window_t *window = malloc (sizeof (window_t));
     memset (window, 0, sizeof (window_t));
@@ -13,7 +16,10 @@ window_t *create_window (backend_t *backend, window_callback_t *callback) {
     switch (backend->type) {
 
         case BACKEND_X11:
-            window->windows.x11 = create_window_x11 (backend->backends.x11, window);
+            window->windows.x11 = create_window_x11 (backend->backends.x11,
+                                                     window,
+                                                     region,
+                                                     title);
             break;
 
         default:

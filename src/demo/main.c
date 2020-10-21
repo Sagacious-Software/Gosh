@@ -119,13 +119,26 @@ void callback (window_t *window, event_t event) {
 
 int main (int argc, char **argv) {
 
+    /* the backend to the windowing system */
+    backend_t *backend;
+
+    /* the window to be created */
+    window_t *window;
+
+    /* the position and dimensions of the window */
+    region_t region;
+
     /* create the backend
      * this automatically decides which backend to use
      * this also automatically makes the connection */
-    backend_t *backend = create_backend (BACKEND_AUTO);
+    backend = create_backend (BACKEND_AUTO);
 
     /* create a window and set the callback */
-    window_t *window = create_window (backend, callback);
+    region.offset.x     = 0;
+    region.offset.y     = 0;
+    region.dimensions.x = 480;
+    region.dimensions.y = 360;
+    window = create_window (backend, callback, region, "Gosh Demo");
 
     /* enter the backend run loop until last window is closed */
     backend_run (backend);

@@ -5,6 +5,7 @@
 #include "backend.h"
 #include "buffer.h"
 #include "event.h"
+#include "util.h"
 
 typedef struct window_t window_t;
 typedef void window_callback_t (window_t *window, event_t event);
@@ -28,7 +29,10 @@ struct window_t {
     } windows;
 };
 
-window_t *create_window (backend_t *backend, window_callback_t *callback);
+window_t *create_window (backend_t *backend,
+                         window_callback_t *callback,
+                         region_t region,
+                         char *title);
 void destroy_window (window_t *window);
 
 void handle_event (window_t *window, event_t event);
