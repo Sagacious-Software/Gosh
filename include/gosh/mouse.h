@@ -9,6 +9,17 @@ typedef enum mouse_button_t {
     MOUSE_MIDDLE,
     MOUSE_RIGHT,
 
+    MOUSE_SCROLL_UP,
+    MOUSE_SCROLL_DOWN,
+
+    MOUSE_SCROLL_LEFT,
+    MOUSE_SCROLL_RIGHT,
+
+    MOUSE_BACKWARDS,
+    MOUSE_FORWARDS,
+
+    MOUSE_10, /* TODO(Sherlock): Unravel the mystery that is Button 10! */
+
     NUM_MOUSE_BUTTON
 
 } mouse_button_t;
