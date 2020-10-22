@@ -1,10 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "backend.h"
-#include "window.h"
-#include "../../window.h"
-#include "../../event.h"
+#include <gosh/backends/x11/backend.h>
+#include <gosh/backends/x11/window.h>
+
+#include <gosh/window.h>
+#include <gosh/event.h>
 
 backend_x11_t *create_backend_x11 () {
 
@@ -59,11 +60,25 @@ void backend_x11_run (backend_x11_t *backend) {
         
         switch (x11_event.type) {
 
+            /* when the window is created */
+            case CreateNotify:
+
+                window_event.type = EVENT_CREATE;
+
+                break;
+
+            /* when the window is destroyed */
+            case DestroyNotify:
+
+                window_event.type = EVENT_DESTROY;
+
+                break;
+
             /* when the window is shown */
             case MapNotify:
 
-                window = lookup_window_x11 (backend, x11_event.xmap.window);
                 window_event.type = EVENT_MAP;
+                window->window->mapped = true;
 
                 break;
 
@@ -71,19 +86,26 @@ void backend_x11_run (backend_x11_t *backend) {
             case UnmapNotify:
 
                 window_event.type = EVENT_UNMAP;
+                window->window->mapped = false;
 
                 break;
 
             /* when a region of the window needs to be redrawn */
-            case Expose:
+            case Expose: {
 
-                window_event.type                              = EVENT_EXPOSE;
-                window_event.events.expose_region.offset.x     = x11_event.xexpose.x;
-                window_event.events.expose_region.offset.y     = x11_event.xexpose.y;
-                window_event.events.expose_region.dimensions.x = x11_event.xexpose.width;
-                window_event.events.expose_region.dimensions.y = x11_event.xexpose.height;
+                /* get the region that was exposed */
+                region_t region;
+                region.offset.x     = x11_event.xexpose.x;
+                region.offset.y     = x11_event.xexpose.y;
+                region.dimensions.x = x11_event.xexpose.width;
+                region.dimensions.y = x11_event.xexpose.height;
 
-                break;
+                /* redraw the exposed region */
+                update_window_x11_region (window, region);
+
+                /* there isn't a user-facing event for this */
+                continue;
+            }
 
             /* when the mouse is moved in the window */
             case MotionNotify:
@@ -143,6 +165,7 @@ void backend_x11_run (backend_x11_t *backend) {
             case KeyPress:
 
                 window_event.type                      = EVENT_KEYBOARD;
+                /* TODO: determine whether to include character keysym here too */
                 window_event.events.keyboard.key       = KEYBOARD_KEY_Q; /* TODO */
                 window_event.events.keyboard.key_state = KEYBOARD_KEY_PRESSED;
 
@@ -159,6 +182,36 @@ void backend_x11_run (backend_x11_t *backend) {
 
             /* TODO: text input */
             /* TODO: mouse drag */
+
+            /* when the window is resized */
+            case ConfigureNotify:
+
+                /* save the old region of the window */
+                window_event.events.move_resize.old_region
+                    = window->window->buffer.region;
+
+                /* get the new region of the window */
+                window_event.events.move_resize.new_region.offset.x
+                    = x11_event.xconfigure.x;
+                window_event.events.move_resize.new_region.offset.y
+                    = x11_event.xconfigure.y;
+                window_event.events.move_resize.new_region.dimensions.x
+                    = x11_event.xconfigure.width;
+                window_event.events.move_resize.new_region.dimensions.y
+                    = x11_event.xconfigure.height;
+
+                /* reinitialize the pixel buffer for the new size */
+                init_window_x11_buffer (window,
+                                        window_event.events.move_resize.new_region);
+
+                /* if the window size has changed,
+                 * treat this as a resize event rather than a move event */
+                window_event.type
+                    = point_equals (window_event.events.move_resize.new_region.dimensions,
+                                    window_event.events.move_resize.old_region.dimensions)
+                    ? EVENT_MOVE : EVENT_RESIZE;
+
+                break;
 
             default:
                 continue;

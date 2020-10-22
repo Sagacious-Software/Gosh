@@ -1,4 +1,4 @@
-#include "mouse.h"
+#include <gosh/mouse.h>
 
 const char *mouse_button_name (mouse_button_t button) {
 

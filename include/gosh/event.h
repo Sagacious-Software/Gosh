@@ -3,16 +3,20 @@
 
 #include "mouse.h"
 #include "keyboard.h"
+#include "buffer_spec.h"
 #include "util.h"
 
 typedef enum event_type_t {
 
-    EVENT_MAP,      /* when the window is shown */
-    EVENT_UNMAP,    /* when the window is hidden */
-    EVENT_EXPOSE,   /* when a region of the window needs to be redrawn */
-    EVENT_MOUSE,    /* when the state of the mouse in the window changed */
-    EVENT_KEYBOARD, /* when the state of the keyboard in the window changed */
-    EVENT_TEXT,     /* when text is entered in the window */
+    EVENT_CREATE,      /* when the window is created */
+    EVENT_DESTROY,     /* when the window is destroyed */
+    EVENT_MAP,         /* when the window is shown */
+    EVENT_UNMAP,       /* when the window is hidden */
+    EVENT_RESIZE,      /* when the window is moved */
+    EVENT_MOVE,        /* when the window is resized */
+    EVENT_MOUSE,       /* when the state of the mouse in the window changed */
+    EVENT_KEYBOARD,    /* when the state of the keyboard in the window changed */
+    EVENT_TEXT,        /* when text is entered in the window */
 
     NUM_EVENT_TYPE
 
@@ -36,9 +40,17 @@ typedef struct event_t {
 
     union {
 
-        /* the region of the window that was exposed for expose events */
-        region_t expose_region;
-        
+        /* information about when the window was moved or resized */
+        struct {
+
+            /* the old region of the window before the event occured */
+            region_t old_region;
+
+            /* the new region of the window after the event occered */
+            region_t new_region;
+
+        } move_resize;
+
         /* information about the mouse and what changed for mouse events */
         struct {
 
@@ -62,6 +74,9 @@ typedef struct event_t {
 
             /* which key was changed */
             keyboard_key_t key;
+
+            /* which character was input */
+            /*char character; */ /* TODO: decide on what to do about this ! */
 
             /* the new state of the key that was changed */
             keyboard_key_state_t key_state;

@@ -1,40 +1,93 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include <time.h>
 
-#include "../window.h"
+#include <gosh/window.h>
 
-/*
-void draw_region (buffer_t *buffer, region_t region) {
+void draw (window_t *window) {
 
+    int x, y, width, height;
+    uint8_t *pixels;
 
+    printf ("Drawing with size: (%d, %d)\n", window->buffer.region.dimensions.x,
+                                             window->buffer.region.dimensions.y);
+
+    /* TODO: do a funky demo */
+    width  = window->buffer.region.dimensions.x;
+    height = window->buffer.region.dimensions.y;
+    pixels = (uint8_t *) window->buffer.pixels;
+    for (y = 0; y < height; y++)
+        for (x = 0; x < width; x++) {
+
+            int i = x + y * width;
+
+            pixels[i * 4 + 0] = rand (); /* blue */
+            pixels[i * 4 + 1] = rand (); /* green */
+            pixels[i * 4 + 2] = rand (); /* red */
+            pixels[i * 4 + 3] = 255;     /* alpha */
+        }
+
+    /* update the window */
+    update_window (window);
 }
-*/
 
 void callback (window_t *window, event_t event) {
 
     switch (event.type) {
 
+        /* when the window is created */
+        case EVENT_CREATE:
+
+            puts ("Hi hi");
+
+            /* draw the contents of the window */
+            draw (window);
+            
+            break;
+
+        /* when the window is destroyed */
+        case EVENT_DESTROY:
+
+            puts ("Bye bye");
+
+            /* exit the application when the window is closed */
+            backend_exit (window->backend);
+            
+            break;
+
         /* when the window is shown */
         case EVENT_MAP:
 
-            puts ("Hi hi");
+            puts ("Peekaboo :3");
 
             break;
         
         /* when the window is hidden */
         case EVENT_UNMAP:
 
-            puts ("Bye bye");
-            backend_exit (window->backend);
+            puts ("*hides*");
 
             break;
 
-        /* when a region of the window needs to be redrawn */
-        case EVENT_EXPOSE:
+        /* when the window is moved */
+        case EVENT_MOVE:
 
-            /*
-            draw_region (window->buffer, event.events.expose_region);
-            */
+            printf ("Window was moved: (%d, %d)\n",
+                    event.events.move_resize.new_region.offset.x,
+                    event.events.move_resize.new_region.offset.y);
+
+            break;
+
+        /* when the window is resized */
+        case EVENT_RESIZE:
+
+            printf ("Window was resized: (%d, %d)\n",
+                    event.events.move_resize.new_region.dimensions.x,
+                    event.events.move_resize.new_region.dimensions.y);
+
+            /* redraw the contents of the window with the new size */
+            draw (window);
 
             break;
 
@@ -127,6 +180,9 @@ int main (int argc, char **argv) {
 
     /* the position and dimensions of the window */
     region_t region;
+
+    /* seed the random number generator */
+    srand (time (NULL));
 
     /* create the backend
      * this automatically decides which backend to use

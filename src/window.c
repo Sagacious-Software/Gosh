@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "window.h"
+#include <gosh/window.h>
 
 window_t *create_window (backend_t *backend,
                          window_callback_t *callback,
@@ -42,6 +42,29 @@ void destroy_window (window_t *window) {
     }
 
     free (window);
+}
+
+void update_window (window_t *window) {
+
+    region_t region;
+    region.offset.x = 0;
+    region.offset.y = 0;
+    region.dimensions.x = window->buffer.region.dimensions.x;
+    region.dimensions.y = window->buffer.region.dimensions.y;
+    update_window_region (window, region);
+}
+
+void update_window_region (window_t *window, region_t region) {
+
+    switch (window->backend->type) {
+
+        case BACKEND_X11:
+            update_window_x11_region (window->windows.x11, region);
+            break;
+
+        default:
+            break;
+    }
 }
 
 void handle_event (window_t *window, event_t event) {

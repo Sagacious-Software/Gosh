@@ -1,4 +1,4 @@
-#include "keyboard.h"
+#include <gosh/keyboard.h>
 
 const char *keyboard_key_name (keyboard_key_t key) {
 

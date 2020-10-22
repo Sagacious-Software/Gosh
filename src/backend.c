@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "backend.h"
+#include <gosh/backend.h>
 
 backend_t *create_backend (backend_type_t type) {
 

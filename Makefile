@@ -1,12 +1,12 @@
 SOURCE_DIR      = src
 INCLUDE_DIR     = include
 OBJECT_DIR      = obj
-DEMO_SOURCE_DIR = $(SOURCE_DIR)/demo
+DEMO_SOURCE_DIR = demo
 DEMO_OBJECT_DIR = $(OBJECT_DIR)/demo
 BUILD_DIR       = build
 
 CC       = cc
-CFLAGS   = -Wall -Werror -Wpedantic -ansi
+CFLAGS   = -Wall -Werror -Wpedantic -ansi -I$(INCLUDE_DIR)
 LIBS     = x11
 LDFLAGS  = $(shell pkg-config --cflags --libs $(LIBS))
 
@@ -93,6 +93,6 @@ install:
 	install -d $(INSTALL_PREFIX)/include/
 	install -d $(INSTALL_PREFIX)/lib/
 	install -d $(INSTALL_PREFIX)/bin/
-	install -m 644 $(INSTALL_PREFIX)/include/
+	install -m 644 $(INCLUDE_DIR)/* $(INSTALL_PREFIX)/include/
 	install -m 644 $(TARGET_STATIC) $(TARGET_SHARED) $(INSTALL_PREFIX)/lib/
 	install -m 644 $(TARGET_DEMO) $(INSTALL_PREFIX)/bin/
