@@ -4,7 +4,7 @@ Simple and easy to use cross-platform window system API.
 
 It aims to be similar to SDL, but more lightweight, and designed around giving you easy access to the window's buffer in software.
 
-# Try the demo
+## Try the demo
 
 Just run this command in the root of the repository!:
 
@@ -12,7 +12,7 @@ Just run this command in the root of the repository!:
 make debug
 ```
 
-# Build and install
+## Build and install
 
 If you just built the debug version, be sure to clean first:
 
@@ -28,9 +28,9 @@ When you are ready to build and install:
 make install
 ```
 
-# TODO
+## TODO
 
-## General
+### General
 
 - Cross platform keycode layer
 - Mode option to pass to backend constructor:
@@ -38,7 +38,7 @@ make install
   - ASYNC (poll for events and send idle events when no other events are ready)
   - VSYNC (wait for time to draw and send vsync events)
 
-## X11
+### X11
 
 - X11 MIT-SHM extension when available
 - Some kind of X11 vsync mechanism and associated event
@@ -48,7 +48,7 @@ make install
 - Mouse button handling
 - Keysym handling
 
-## Backends
+### Backends
 
 - Auto detect backend (with environment variable override)
 - Win32 backend
