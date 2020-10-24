@@ -6,7 +6,7 @@ DEMO_OBJECT_DIR = $(OBJECT_DIR)/demo
 BUILD_DIR       = build
 
 CC       = cc
-CFLAGS   = -Wall -Werror -Wpedantic -ansi -I$(INCLUDE_DIR)
+CFLAGS   = -Wall -Werror -Wpedantic -ansi -I$(INCLUDE_DIR) -D_POSIX_C_SOURCE=199309L #TODO: remove this feature test macro
 LIBS     = x11
 LDFLAGS  = $(shell pkg-config --cflags --libs $(LIBS))
 

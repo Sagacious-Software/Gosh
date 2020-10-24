@@ -84,6 +84,9 @@ void update_window_region (window_t *window, region_t region) {
 
 void handle_event (window_t *window, event_t event) {
 
+    if (window->callback == NULL)
+        return;
+
     /* keep track of the mouse and keyboard state */
     switch (event.type) {
 

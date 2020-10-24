@@ -23,4 +23,6 @@ typedef struct region_t {
 bool point_equals (point_t a, point_t b);
 bool region_equals (region_t a, region_t b);
 
+typedef void idle_callback_t (void *data);
+
 #endif /* UTIL_H */

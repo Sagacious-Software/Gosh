@@ -2,10 +2,7 @@
 
 #include <gosh/backend.h>
 
-backend_t *create_backend (backend_type_t type,
-                           backend_mode_t mode,
-                           backend_idle_callback_t *idle_callback,
-                           void *data) {
+backend_t *create_backend (backend_type_t type) {
 
     backend_t *backend;
 
@@ -16,9 +13,7 @@ backend_t *create_backend (backend_type_t type,
 
     backend = malloc (sizeof (backend_t));
     backend->type = type;
-    backend->mode = mode;
-    backend->idle = idle_callback;
-    backend->data = data;
+    backend->running = true;
 
     switch (type) {
 
@@ -48,33 +43,46 @@ void destroy_backend (backend_t *backend) {
     free (backend);
 }
 
-void backend_run (backend_t *backend) {
+int backend_pending (backend_t *backend) {
 
     switch (backend->type) {
 
         case BACKEND_X11:
-            backend_x11_run (backend->backends.x11);
+            return backend_x11_pending (backend->backends.x11);
+
+        default:
+            return false;
+    }
+}
+
+void backend_process (backend_t *backend) {
+
+    switch (backend->type) {
+
+        case BACKEND_X11:
+            backend_x11_process (backend->backends.x11);
             break;
 
         default:
             break;
+    }
+}
+
+void backend_run (backend_t *backend, idle_callback_t *callback, void *data) {
+
+    while (backend->running) {
+        
+        if (callback && backend_pending (backend) == 0) {
+
+            callback (data);
+            continue;
+        }
+
+        backend_process (backend);
     }
 }
 
 void backend_exit (backend_t *backend) {
 
-    switch (backend->type) {
-
-        case BACKEND_X11:
-            backend_x11_exit (backend->backends.x11);
-            break;
-
-        default:
-            break;
-    }
-}
-
-void backend_idle (backend_t *backend) {
-
-    backend->idle (backend, backend->data);
+    backend->running = false;
 }

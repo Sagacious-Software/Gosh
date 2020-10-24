@@ -11,16 +11,33 @@ typedef struct state_t {
     /* the backend to the windowing system */
     backend_t *backend;
 
-    /* the window to be created */
-    window_t *window;
+    /* the two windows to be created */
+    window_t *window_1;
+    window_t *window_2;
 
 } state_t;
 
 /* render the contents of a window */
-void draw (window_t *window) {
+void draw (window_t *window, state_t *state) {
 
     int x, y, width, height;
     uint8_t *pixels;
+    double r, g, b;
+
+    /* choose yellow for the first window */
+    if (window == state->window_1) {
+
+        r = 1;
+        g = 1;
+        b = 0;
+
+    /* and magenta for the second window */
+    } else {
+
+        r = 1;
+        g = 0;
+        b = 1;
+    }
 
     /* TODO: do a funky demo */
     width  = window->buffer.region.dimensions.x;
@@ -31,10 +48,10 @@ void draw (window_t *window) {
 
             int i = x + y * width;
 
-            pixels[i * 4 + 0] = rand (); /* blue */
-            pixels[i * 4 + 1] = rand (); /* green */
-            pixels[i * 4 + 2] = rand (); /* red */
-            pixels[i * 4 + 3] = 255;     /* alpha */
+            pixels[i * 4 + 0] = rand () % 256 * b; /* blue  */
+            pixels[i * 4 + 1] = rand () % 256 * g; /* green */
+            pixels[i * 4 + 2] = rand () % 256 * r; /* red   */
+            pixels[i * 4 + 3] = 255;               /* alpha */
         }
     
     /* update the contents of the window */
@@ -43,6 +60,8 @@ void draw (window_t *window) {
 
 /* called when we receive an event */
 void callback (window_t *window, event_t event, void *data) {
+
+    state_t *state = (state_t *) data;
 
     switch (event.type) {
 
@@ -57,7 +76,7 @@ void callback (window_t *window, event_t event, void *data) {
         case EVENT_VBLANK:
 
             /* draw the contents of the window */
-            draw (window);
+            draw (window, state);
             
             break;
 
@@ -102,7 +121,7 @@ void callback (window_t *window, event_t event, void *data) {
                     event.events.move_resize.new_region.dimensions.y);
 
             /* redraw the contents of the window with the new size */
-            draw (window);
+            draw (window, state);
 
             break;
 
@@ -195,32 +214,39 @@ int main (int argc, char **argv) {
     /* context to hold all of our program variables */
     state_t state;
 
-    /* the position and dimensions of the window to be created */
-    region_t region;
+    /* the position and dimensions of the windows to be created */
+    region_t region_1, region_2;
 
     /* seed the random number generator */
     srand (time (NULL));
 
     /* create the backend
-     * BACKEND_AUTO automatically decides which backend to use
-     * MODE_VSYNC means to send vsync events on vsync, useful for animation */
-    state.backend = create_backend (BACKEND_AUTO, MODE_VSYNC, NULL, NULL);
+     * BACKEND_AUTO automatically decides which backend to use */
+    state.backend = create_backend (BACKEND_AUTO);
 
-    /* set the region on screen for the window to appear
-     * offset of 0, 0 will automatically position the window appropriately */
-    region.offset.x     = 0;
-    region.offset.y     = 0;
-    region.dimensions.x = 480;
-    region.dimensions.y = 360;
+    /* set the regions on screen for the windows to appear */
+    region_1.offset.x     = 32;
+    region_1.offset.y     = 360+32;
+    region_1.dimensions.x = 480;
+    region_1.dimensions.y = 360;
 
-    /* create a window and set the callback */
-    state.window = create_window (state.backend, region, "Gosh Demo", callback, &state);
+    region_2.offset.x     = 544;
+    region_2.offset.y     = 32;
+    region_2.dimensions.x = 480;
+    region_2.dimensions.y = 360;
 
-    /* enter the backend run loop until last window is closed */
-    backend_run (state.backend);
+    /* create the first window and set the callback */
+    state.window_1 = create_window (state.backend, region_1, "Gosh Demo Window 1", callback, &state);
+
+    /* create the second window and set the callback */
+    state.window_2 = create_window (state.backend, region_2, "Gosh Demo Window 2", callback, &state);
+
+    /* enter the backend run loop until user exits */
+    backend_run (state.backend, NULL, NULL);
 
     /* cleanup and exit */
-    destroy_window (state.window);
+    destroy_window (state.window_1);
+    destroy_window (state.window_2);
     destroy_backend (state.backend);
 
     return EXIT_SUCCESS;

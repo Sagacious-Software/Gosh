@@ -32,7 +32,9 @@ make install
 
 ### General
 
-_Nothing right now...!_
+- Setup for multiple demos showcasing different features
+- Keeping proper track of closed windows
+- Mechanism for detecting when last window is closed
 
 ### X11
 
@@ -41,7 +43,7 @@ _Nothing right now...!_
 - Some kind of X11 vsync mechanism and associated event
 - Filter out repeat resize events in event queue (to avoid resize drawing lag)
 - X11 MIT-SHM extension when available
-- Fix "BadDrawable" on exit
+- Fix "BadDrawable" on attempt to draw while window is closing
 
 ### Backends
 

@@ -17,7 +17,8 @@ struct window_t {
     /* the backend the window is associated with */
     backend_t *backend;
 
-    /* the function that is called to handle window events */
+    /* the function that is called to handle window events
+     * this can be null if this is not needed */
     window_callback_t *callback;
 
     /* user data that is passed to the callback */
