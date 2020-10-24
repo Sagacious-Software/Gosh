@@ -44,6 +44,19 @@ void destroy_window (window_t *window) {
     free (window);
 }
 
+void close_window (window_t *window) {
+
+    switch (window->backend->type) {
+
+        case BACKEND_X11:
+            close_window_x11 (window->windows.x11);
+            break;
+
+        default:
+            break;
+    }
+}
+
 void update_window (window_t *window) {
 
     region_t region;

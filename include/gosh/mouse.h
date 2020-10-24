@@ -20,6 +20,8 @@ typedef enum mouse_button_t {
 
     MOUSE_10, /* TODO(Sherlock): Unravel the mystery that is Button 10! */
 
+    MOUSE_UNKNOWN,
+
     NUM_MOUSE_BUTTON
 
 } mouse_button_t;
@@ -32,8 +34,8 @@ const char *mouse_button_name (mouse_button_t button);
 
 typedef enum mouse_button_state_t {
 
-    MOUSE_BUTTON_PRESSED,
     MOUSE_BUTTON_RELEASED,
+    MOUSE_BUTTON_PRESSED,
 
     NUM_MOUSE_BUTTON_STATE
 
@@ -46,7 +48,6 @@ typedef struct mouse_t {
     point_t position;
 
     /* the states of the mouse buttons */
-    /* TODO: consider using a mask instead */
     mouse_button_state_t buttons[NUM_MOUSE_BUTTON];
 
 } mouse_t;

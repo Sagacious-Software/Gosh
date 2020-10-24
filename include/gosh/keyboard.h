@@ -21,7 +21,6 @@ typedef enum keyboard_key_t {
 
     /* Function-specific keys */
     KEYBOARD_KEY_BACKSPACE,
-    KEYBOARD_KEY_BREAK,
     KEYBOARD_KEY_CAPS_LOCK,
     KEYBOARD_KEY_DELETE,
     KEYBOARD_KEY_END,
@@ -114,6 +113,8 @@ typedef enum keyboard_key_t {
     KEYPAD_KEY_PLUS,
     KEYPAD_KEY_SLASH,
 
+    KEYBOARD_KEY_UNKNOWN,
+
     NUM_KEYBOARD_KEY
 
 } keyboard_key_t;
@@ -126,8 +127,8 @@ const char *keyboard_key_name (keyboard_key_t key);
 
 typedef enum keyboard_key_state_t {
 
-    KEYBOARD_KEY_PRESSED,
     KEYBOARD_KEY_RELEASED,
+    KEYBOARD_KEY_PRESSED,
 
     NUM_KEYBOARD_KEY_STATE
 
@@ -137,8 +138,7 @@ typedef enum keyboard_key_state_t {
 typedef struct keyboard_t {
 
     /* the states of the keyboard keys */
-    /* TODO: consider using a mask instead */
-    keyboard_key_state_t keys[NUM_KEYBOARD_KEY_STATE];
+    keyboard_key_state_t keys[NUM_KEYBOARD_KEY];
 
 } keyboard_t;
 

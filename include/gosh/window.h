@@ -43,6 +43,9 @@ window_t *create_window (backend_t *backend,
                          char *title);
 void destroy_window (window_t *window);
 
+/* request to close the window */
+void close_window (window_t *window);
+
 /* copy the drawing buffer to the screen */
 void update_window (window_t *window);
 

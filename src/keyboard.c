@@ -18,9 +18,8 @@ const char *KEYBOARD_KEY_NAMES[] = {
 
     /* Function-specific keys */
     "backspace",
-    "break",
     "caps lock",
-    "delet",
+    "delete",
     "end",
     "enter",
     "escape",
@@ -110,6 +109,8 @@ const char *KEYBOARD_KEY_NAMES[] = {
     "keypad period",
     "keypad plus",
     "keypad slash",
+
+    "unknown"
 };
 
 const char *keyboard_key_name (keyboard_key_t key) {

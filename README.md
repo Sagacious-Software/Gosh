@@ -43,7 +43,6 @@ make install
 - X11 MIT-SHM extension when available
 - Some kind of X11 vsync mechanism and associated event
 - Proper generic color handling in X11
-- Fix issue where it apparently sends a bad message to X when closing the window
 - Mouse dragging events
 - Mouse button handling
 - Keysym handling

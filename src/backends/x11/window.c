@@ -22,6 +22,7 @@ window_x11_t *create_window_x11 (backend_x11_t *backend,
     window_x11_t *window_x11 = malloc (sizeof (window_x11_t));
     window_x11->backend = backend;
     window_x11->window = window;
+    window_x11->alive = false;
     window_x11->image = NULL;
 
     window_x11->window_handle = XCreateWindow (backend->display,
@@ -74,12 +75,17 @@ window_x11_t *create_window_x11 (backend_x11_t *backend,
     XSelectInput (backend->display, window_x11->window_handle,
                   ExposureMask        | ButtonPressMask | ButtonReleaseMask |
                   PointerMotionMask   | KeyPressMask    | KeyReleaseMask    |
-                  StructureNotifyMask | EnterWindowMask | LeaveWindowMask);
+                  StructureNotifyMask | EnterWindowMask | LeaveWindowMask   |
+                  SubstructureNotifyMask);
 
     XMapRaised (backend->display, window_x11->window_handle);
 
     /* register the newly created window with the backend */
     register_window_x11 (backend, window_x11);
+
+    /* TODO: figure out why we aren't receiving CreateNotify
+     * this line is just a temporary replacement for that */
+    window_x11->alive = true;
 
     return window_x11;
 }
@@ -91,9 +97,15 @@ void destroy_window_x11_buffer (window_x11_t *window) {
 
 void destroy_window_x11 (window_x11_t *window) {
 
+    close_window_x11 (window);
     destroy_window_x11_buffer (window);
-    XDestroyWindow (window->backend->display, window->window_handle);
     free (window);
+}
+
+void close_window_x11 (window_x11_t *window) {
+
+    if (window->alive)
+        XDestroyWindow (window->backend->display, window->window_handle);
 }
 
 void update_window_x11_region (window_x11_t *window, region_t region) {

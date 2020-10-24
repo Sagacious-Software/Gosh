@@ -59,13 +59,14 @@ void backend_x11_run (backend_x11_t *backend) {
         
         XNextEvent (backend->display, &x11_event);
         window = lookup_window_x11 (backend, x11_event.xany.window);
-        
+
         switch (x11_event.type) {
 
             /* when the window is created */
             case CreateNotify:
 
                 window_event.type = EVENT_CREATE;
+                window->alive = true;
 
                 break;
 
@@ -73,6 +74,7 @@ void backend_x11_run (backend_x11_t *backend) {
             case DestroyNotify:
 
                 window_event.type = EVENT_DESTROY;
+                window->alive = false;
 
                 break;
 

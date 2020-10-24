@@ -16,6 +16,8 @@ const char *MOUSE_BUTTON_NAMES[] = {
     "forwards",
 
     "10",
+
+    "unknown"
 };
 
 const char *mouse_button_name (mouse_button_t button) {

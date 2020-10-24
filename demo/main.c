@@ -27,8 +27,8 @@ void draw (window_t *window) {
             pixels[i * 4 + 2] = rand (); /* red */
             pixels[i * 4 + 3] = 255;     /* alpha */
         }
-
-    /* update the window */
+    
+    /* update the contents of the window */
     update_window (window);
 }
 
@@ -155,6 +155,11 @@ void callback (window_t *window, event_t event) {
                     event.events.keyboard.key_state == KEYBOARD_KEY_PRESSED
                     ? "PRESSED" : "RELEASED");
 
+            /* close the window if the user presses escape */
+            if (event.events.keyboard.key       == KEYBOARD_KEY_ESCAPE &&
+                event.events.keyboard.key_state == KEYBOARD_KEY_PRESSED)
+                close_window (window);
+
             break;
 
         /* when text is entered in the window */
@@ -189,11 +194,14 @@ int main (int argc, char **argv) {
      * this also automatically makes the connection */
     backend = create_backend (BACKEND_AUTO);
 
-    /* create a window and set the callback */
+    /* set the region on screen for the window to appear
+     * offset of 0, 0 will automatically position the window appropriately */
     region.offset.x     = 0;
     region.offset.y     = 0;
     region.dimensions.x = 480;
     region.dimensions.y = 360;
+
+    /* create a window and set the callback */
     window = create_window (backend, callback, region, "Gosh Demo");
 
     /* enter the backend run loop until last window is closed */
