@@ -30,7 +30,7 @@ typedef enum backend_mode_t {
 } backend_mode_t;
 
 typedef struct backend_t backend_t;
-typedef void backend_idle_callback_t (backend_t *backend);
+typedef void backend_idle_callback_t (backend_t *backend, void *data);
 
 struct backend_t {
 
@@ -43,17 +43,20 @@ struct backend_t {
     /* the function that is called during idle cpu time in async mode */
     backend_idle_callback_t *idle;
 
+    /* user data that is passed to the callback */
+    void *data;
+
     union {
 
         backend_x11_t *x11;
 
     } backends;
-
 };
 
 backend_t *create_backend (backend_type_t type,
                            backend_mode_t mode,
-                           backend_idle_callback_t *idle_callback);
+                           backend_idle_callback_t *idle_callback,
+                           void *data);
 void destroy_backend (backend_t *backend);
 
 /* enter the run loop */

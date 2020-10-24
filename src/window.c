@@ -4,14 +4,16 @@
 #include <gosh/window.h>
 
 window_t *create_window (backend_t *backend,
-                         window_callback_t *callback,
                          region_t region,
-                         char *title) {
+                         char *title,
+                         window_callback_t *callback,
+                         void *data) {
 
     window_t *window = malloc (sizeof (window_t));
     memset (window, 0, sizeof (window_t));
     window->backend = backend;
     window->callback = callback;
+    window->data = data;
 
     switch (backend->type) {
 
@@ -109,5 +111,5 @@ void handle_event (window_t *window, event_t event) {
     }
 
     /* send the event to the window's assigned event handler callback */
-    window->callback (window, event);
+    window->callback (window, event, window->data);
 }

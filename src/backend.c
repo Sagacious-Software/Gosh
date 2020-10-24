@@ -4,7 +4,8 @@
 
 backend_t *create_backend (backend_type_t type,
                            backend_mode_t mode,
-                           backend_idle_callback_t *idle_callback) {
+                           backend_idle_callback_t *idle_callback,
+                           void *data) {
 
     backend_t *backend;
 
@@ -17,6 +18,7 @@ backend_t *create_backend (backend_type_t type,
     backend->type = type;
     backend->mode = mode;
     backend->idle = idle_callback;
+    backend->data = data;
 
     switch (type) {
 
@@ -74,5 +76,5 @@ void backend_exit (backend_t *backend) {
 
 void backend_idle (backend_t *backend) {
 
-    backend->idle (backend);
+    backend->idle (backend, backend->data);
 }

@@ -92,7 +92,11 @@ window_x11_t *create_window_x11 (backend_x11_t *backend,
 
 void destroy_window_x11_buffer (window_x11_t *window) {
 
-    XDestroyImage (window->image);
+    if (window->image) {
+
+        XDestroyImage (window->image);
+        window->image = NULL;
+    }
 }
 
 void destroy_window_x11 (window_x11_t *window) {
@@ -104,8 +108,11 @@ void destroy_window_x11 (window_x11_t *window) {
 
 void close_window_x11 (window_x11_t *window) {
 
-    if (window->alive)
+    if (window->alive) {
+
         XDestroyWindow (window->backend->display, window->window_handle);
+        window->alive = false;
+    }
 }
 
 void update_window_x11_region (window_x11_t *window, region_t region) {
@@ -113,7 +120,7 @@ void update_window_x11_region (window_x11_t *window, region_t region) {
     Display *display;
     GC graphics_context;
 
-    if (window->image == NULL)
+    if (window->image == NULL || !window->alive)
         return;
 
     display = window->backend->display;

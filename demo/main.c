@@ -5,8 +5,16 @@
 
 #include <gosh/window.h>
 
-/* TODO: implement vsync and make this not global */
-window_t *window;
+/* struct to hold the animation state */
+typedef struct state_t {
+
+    /* the backend to the windowing system */
+    backend_t *backend;
+
+    /* the window to be created */
+    window_t *window;
+
+} state_t;
 
 /* render the contents of a window */
 void draw (window_t *window) {
@@ -37,13 +45,14 @@ void draw (window_t *window) {
 }
 
 /* called when there are no other events to process */
-void idle (backend_t *backend) {
+void idle (backend_t *backend, void *data) {
 
-    draw (window);
+    state_t *state = (state_t *) data;
+    draw (state->window);
 }
 
 /* called when we receive an event */
-void callback (window_t *window, event_t event) {
+void callback (window_t *window, event_t event, void *data) {
 
     switch (event.type) {
 
@@ -188,14 +197,10 @@ void callback (window_t *window, event_t event) {
 
 int main (int argc, char **argv) {
 
-    /* the backend to the windowing system */
-    backend_t *backend;
+    /* context to hold all of our program variables */
+    state_t state;
 
-    /* the window to be created */
-    /* TODO: see vsync comment at top of file */
-    /*window_t *window;*/
-
-    /* the position and dimensions of the window */
+    /* the position and dimensions of the window to be created */
     region_t region;
 
     /* seed the random number generator */
@@ -204,7 +209,7 @@ int main (int argc, char **argv) {
     /* create the backend
      * BACKEND_AUTO automatically decides which backend to use
      * MODE_ASYNC means to call the given idle function during idle time */
-    backend = create_backend (BACKEND_AUTO, MODE_ASYNC, idle);
+    state.backend = create_backend (BACKEND_AUTO, MODE_ASYNC, idle, &state);
 
     /* set the region on screen for the window to appear
      * offset of 0, 0 will automatically position the window appropriately */
@@ -214,14 +219,14 @@ int main (int argc, char **argv) {
     region.dimensions.y = 360;
 
     /* create a window and set the callback */
-    window = create_window (backend, callback, region, "Gosh Demo");
+    state.window = create_window (state.backend, region, "Gosh Demo", callback, &state);
 
     /* enter the backend run loop until last window is closed */
-    backend_run (backend);
+    backend_run (state.backend);
 
     /* cleanup and exit */
-    destroy_window (window);
-    destroy_backend (backend);
+    destroy_window (state.window);
+    destroy_backend (state.backend);
 
     return EXIT_SUCCESS;
 }

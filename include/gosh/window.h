@@ -10,7 +10,7 @@
 #include "util.h"
 
 typedef struct window_t window_t;
-typedef void window_callback_t (window_t *window, event_t event);
+typedef void window_callback_t (window_t *window, event_t event, void *data);
 
 struct window_t {
 
@@ -19,6 +19,9 @@ struct window_t {
 
     /* the function that is called to handle window events */
     window_callback_t *callback;
+
+    /* user data that is passed to the callback */
+    void *data;
 
     /* the pixel buffer */
     buffer_spec_t buffer;
@@ -38,9 +41,10 @@ struct window_t {
 };
 
 window_t *create_window (backend_t *backend,
-                         window_callback_t *callback,
                          region_t region,
-                         char *title);
+                         char *title,
+                         window_callback_t *callback,
+                         void *data);
 void destroy_window (window_t *window);
 
 /* request to close the window */
