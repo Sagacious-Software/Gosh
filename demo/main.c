@@ -5,6 +5,10 @@
 
 #include <gosh/window.h>
 
+/* TODO: implement vsync and make this not global */
+window_t *window;
+
+/* render the contents of a window */
 void draw (window_t *window) {
 
     int x, y, width, height;
@@ -32,6 +36,13 @@ void draw (window_t *window) {
     update_window (window);
 }
 
+/* called when there are no other events to process */
+void idle (backend_t *backend) {
+
+    draw (window);
+}
+
+/* called when we receive an event */
 void callback (window_t *window, event_t event) {
 
     switch (event.type) {
@@ -181,7 +192,8 @@ int main (int argc, char **argv) {
     backend_t *backend;
 
     /* the window to be created */
-    window_t *window;
+    /* TODO: see vsync comment at top of file */
+    /*window_t *window;*/
 
     /* the position and dimensions of the window */
     region_t region;
@@ -190,9 +202,9 @@ int main (int argc, char **argv) {
     srand (time (NULL));
 
     /* create the backend
-     * this automatically decides which backend to use
-     * this also automatically makes the connection */
-    backend = create_backend (BACKEND_AUTO);
+     * BACKEND_AUTO automatically decides which backend to use
+     * MODE_ASYNC means to call the given idle function during idle time */
+    backend = create_backend (BACKEND_AUTO, MODE_ASYNC, idle);
 
     /* set the region on screen for the window to appear
      * offset of 0, 0 will automatically position the window appropriately */

@@ -32,20 +32,16 @@ make install
 
 ### General
 
-- Cross platform keycode layer
-- Mode option to pass to backend constructor:
-  - SYNC (wait for events)
-  - ASYNC (poll for events and send idle events when no other events are ready)
-  - VSYNC (wait for time to draw and send vsync events)
+_Nothing right now...!_
 
 ### X11
 
-- X11 MIT-SHM extension when available
-- Some kind of X11 vsync mechanism and associated event
-- Proper generic color handling in X11
+- Keysym / text input handling
 - Mouse dragging events
-- Mouse button handling
-- Keysym handling
+- Some kind of X11 vsync mechanism and associated event
+- Filter out repeat resize events in event queue (to avoid resize drawing lag)
+- Proper generic color handling in X11
+- X11 MIT-SHM extension when available
 
 ### Backends
 

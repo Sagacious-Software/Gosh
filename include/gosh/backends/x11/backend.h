@@ -8,8 +8,12 @@
 #define MAX_WINDOWS 256
 
 struct window_x11_t;
+struct backend_t;
 
 typedef struct backend_x11_t {
+
+    /* pointer to the generic backend */
+    struct backend_t *backend;
 
     /* the connection to the X server */
     Display *display;
@@ -23,7 +27,7 @@ typedef struct backend_x11_t {
 
 } backend_x11_t;
 
-backend_x11_t *create_backend_x11 ();
+backend_x11_t *create_backend_x11 (struct backend_t *backend);
 void destroy_backend_x11 (backend_x11_t *backend);
 
 void register_window_x11 (backend_x11_t *backend, struct window_x11_t *window);

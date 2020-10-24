@@ -110,8 +110,14 @@ void close_window_x11 (window_x11_t *window) {
 
 void update_window_x11_region (window_x11_t *window, region_t region) {
 
-    Display *display = window->backend->display;
-    GC graphics_context = DefaultGC (display, DefaultScreen (display));
+    Display *display;
+    GC graphics_context;
+
+    if (window->image == NULL)
+        return;
+
+    display = window->backend->display;
+    graphics_context = DefaultGC (display, DefaultScreen (display));
     XPutImage (display,
                window->window_handle,
                graphics_context,

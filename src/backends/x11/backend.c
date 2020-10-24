@@ -9,19 +9,20 @@
 #include <gosh/window.h>
 #include <gosh/event.h>
 
-backend_x11_t *create_backend_x11 () {
+backend_x11_t *create_backend_x11 (backend_t *backend) {
 
-    backend_x11_t *backend = malloc (sizeof (backend_x11_t));
-    backend->running = true;
-    backend->n_windows = 0;
+    backend_x11_t *backend_x11 = malloc (sizeof (backend_x11_t));
+    backend_x11->backend = backend;
+    backend_x11->running = true;
+    backend_x11->n_windows = 0;
 
-    if (!(backend->display = XOpenDisplay (NULL))) {
+    if (!(backend_x11->display = XOpenDisplay (NULL))) {
 
         fputs ("Failed to open X display.\n", stderr);
         exit (EXIT_FAILURE);
     }
 
-    return backend;
+    return backend_x11;
 }
 
 void destroy_backend_x11 (backend_x11_t *backend) {
@@ -57,8 +58,18 @@ void backend_x11_run (backend_x11_t *backend) {
 
     while (backend->running) {
         
+        if (backend->backend->mode == MODE_ASYNC && XPending (backend->display) == 0) {
+
+            backend_idle (backend->backend);
+            continue;
+        }
+
         XNextEvent (backend->display, &x11_event);
         window = lookup_window_x11 (backend, x11_event.xany.window);
+
+        /* TODO: per window vsync event
+         * reasoning for per window vs global:
+         * each window may be on a different screen */
 
         switch (x11_event.type) {
 
@@ -189,6 +200,10 @@ void backend_x11_run (backend_x11_t *backend) {
 
             /* when the window is resized */
             case ConfigureNotify:
+
+                /* TODO: if there are multiple configure notify events
+                 * in the queue, then should ignore all but the latest one
+                 * this will prevent resize-related redrawing lag */
 
                 /* save the old region of the window */
                 window_event.events.move_resize.old_region
