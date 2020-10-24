@@ -10,13 +10,14 @@ typedef enum event_type_t {
 
     EVENT_CREATE,      /* when the window is created */
     EVENT_DESTROY,     /* when the window is destroyed */
-    EVENT_MAP,         /* when the window is shown */
-    EVENT_UNMAP,       /* when the window is hidden */
-    EVENT_RESIZE,      /* when the window is moved */
-    EVENT_MOVE,        /* when the window is resized */
+    EVENT_SHOW,        /* when the window is shown */
+    EVENT_HIDE,        /* when the window is hidden */
+    EVENT_MOVE,        /* when the window is moved */
+    EVENT_RESIZE,      /* when the window is resized */
     EVENT_MOUSE,       /* when the state of the mouse in the window changed */
     EVENT_KEYBOARD,    /* when the state of the keyboard in the window changed */
     EVENT_TEXT,        /* when text is entered in the window */
+    EVENT_VBLANK,      /* when vertical blanking occurs */
 
     NUM_EVENT_TYPE
 
@@ -74,9 +75,6 @@ typedef struct event_t {
 
             /* which key was changed */
             keyboard_key_t key;
-
-            /* which character was input */
-            /*char character; */ /* TODO: decide on what to do about this ! */
 
             /* the new state of the key that was changed */
             keyboard_key_state_t key_state;

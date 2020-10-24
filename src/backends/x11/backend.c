@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <X11/Xutil.h>
+
 #include <gosh/backends/x11/backend.h>
 #include <gosh/backends/x11/window.h>
 #include <gosh/backends/x11/mouse.h>
@@ -52,6 +54,7 @@ window_x11_t *lookup_window_x11 (backend_x11_t *backend, Window window) {
 
 void backend_x11_run (backend_x11_t *backend) {
 
+    char text_input[256];
     event_t window_event;
     XEvent x11_event;
     window_x11_t *window;
@@ -92,7 +95,7 @@ void backend_x11_run (backend_x11_t *backend) {
             /* when the window is shown */
             case MapNotify:
 
-                window_event.type = EVENT_MAP;
+                window_event.type = EVENT_SHOW;
                 window->window->mapped = true;
 
                 break;
@@ -100,7 +103,7 @@ void backend_x11_run (backend_x11_t *backend) {
             /* when the window is hidden */
             case UnmapNotify:
 
-                window_event.type = EVENT_UNMAP;
+                window_event.type = EVENT_HIDE;
                 window->window->mapped = false;
 
                 break;
@@ -179,8 +182,21 @@ void backend_x11_run (backend_x11_t *backend) {
             /* when a keyboard key is pressed in the window */
             case KeyPress:
 
+                /* TODO: input method support */
+
+                /* the text input */
+                if (XLookupString (&x11_event.xkey,
+                                   text_input,
+                                   sizeof (text_input),
+                                   NULL,
+                                   NULL)) {
+                    window_event.type        = EVENT_TEXT;
+                    window_event.events.text = text_input;
+                    handle_event (window->window, window_event);
+                }
+
+                /* the physical key event */
                 window_event.type                      = EVENT_KEYBOARD;
-                /* TODO: determine whether to include character keysym here too */
                 window_event.events.keyboard.key       = keyboard_key_x11 (x11_event.xkey.keycode);
                 window_event.events.keyboard.key_state = KEYBOARD_KEY_PRESSED;
 
@@ -194,9 +210,6 @@ void backend_x11_run (backend_x11_t *backend) {
                 window_event.events.keyboard.key_state = KEYBOARD_KEY_RELEASED;
 
                 break;
-
-            /* TODO: text input */
-            /* TODO: mouse drag */
 
             /* when the window is resized */
             case ConfigureNotify:

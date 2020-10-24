@@ -22,9 +22,6 @@ void draw (window_t *window) {
     int x, y, width, height;
     uint8_t *pixels;
 
-    printf ("Drawing with size: (%d, %d)\n", window->buffer.region.dimensions.x,
-                                             window->buffer.region.dimensions.y);
-
     /* TODO: do a funky demo */
     width  = window->buffer.region.dimensions.x;
     height = window->buffer.region.dimensions.y;
@@ -44,13 +41,6 @@ void draw (window_t *window) {
     update_window (window);
 }
 
-/* called when there are no other events to process */
-void idle (backend_t *backend, void *data) {
-
-    state_t *state = (state_t *) data;
-    draw (state->window);
-}
-
 /* called when we receive an event */
 void callback (window_t *window, event_t event, void *data) {
 
@@ -60,6 +50,11 @@ void callback (window_t *window, event_t event, void *data) {
         case EVENT_CREATE:
 
             puts ("Hi hi");
+
+            /* fall through */
+
+        /* when vertical blanking occurs */
+        case EVENT_VBLANK:
 
             /* draw the contents of the window */
             draw (window);
@@ -77,14 +72,14 @@ void callback (window_t *window, event_t event, void *data) {
             break;
 
         /* when the window is shown */
-        case EVENT_MAP:
+        case EVENT_SHOW:
 
             puts ("Peekaboo :3");
 
             break;
         
         /* when the window is hidden */
-        case EVENT_UNMAP:
+        case EVENT_HIDE:
 
             puts ("*hides*");
 
@@ -208,8 +203,8 @@ int main (int argc, char **argv) {
 
     /* create the backend
      * BACKEND_AUTO automatically decides which backend to use
-     * MODE_ASYNC means to call the given idle function during idle time */
-    state.backend = create_backend (BACKEND_AUTO, MODE_ASYNC, idle, &state);
+     * MODE_VSYNC means to send vsync events on vsync, useful for animation */
+    state.backend = create_backend (BACKEND_AUTO, MODE_VSYNC, NULL, NULL);
 
     /* set the region on screen for the window to appear
      * offset of 0, 0 will automatically position the window appropriately */

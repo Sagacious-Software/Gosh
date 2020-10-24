@@ -36,16 +36,16 @@ _Nothing right now...!_
 
 ### X11
 
-- Keysym / text input handling
-- Mouse dragging events
+- Complete the keycode mappings
+- Proper generic color handling in X11
 - Some kind of X11 vsync mechanism and associated event
 - Filter out repeat resize events in event queue (to avoid resize drawing lag)
-- Proper generic color handling in X11
 - X11 MIT-SHM extension when available
+- Fix "BadDrawable" on exit
 
 ### Backends
 
 - Auto detect backend (with environment variable override)
-- Win32 backend
+- Windows backend
 - Wayland backend
 - MacOS backend
