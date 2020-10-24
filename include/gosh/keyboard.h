@@ -38,7 +38,6 @@ typedef enum keyboard_key_t {
     KEYBOARD_KEY_RIGHT_ALT,
     KEYBOARD_KEY_RIGHT_CONTROL,
     KEYBOARD_KEY_RIGHT_SHIFT,
-    KEYBOARD_KEY_TAB,
 
     /* Special character keys */
     KEYBOARD_KEY_APOSTROPHE,
@@ -52,6 +51,20 @@ typedef enum keyboard_key_t {
     KEYBOARD_KEY_RIGHT_BRACKET,
     KEYBOARD_KEY_SEMICOLON,
     KEYBOARD_KEY_SLASH,
+    KEYBOARD_KEY_TAB,
+    KEYBOARD_KEY_SPACE,
+
+    /* Number row keys */
+    KEYBOARD_KEY_1,
+    KEYBOARD_KEY_2,
+    KEYBOARD_KEY_3,
+    KEYBOARD_KEY_4,
+    KEYBOARD_KEY_5,
+    KEYBOARD_KEY_6,
+    KEYBOARD_KEY_7,
+    KEYBOARD_KEY_8,
+    KEYBOARD_KEY_9,
+    KEYBOARD_KEY_0,
 
     /* Character keys */
     KEYBOARD_KEY_Q,
@@ -105,6 +118,12 @@ typedef enum keyboard_key_t {
 
 } keyboard_key_t;
 
+/* the names of the keyboard keys */
+extern const char *KEYBOARD_KEY_NAMES[];
+
+/* get the name of a keyboard key */
+const char *keyboard_key_name (keyboard_key_t key);
+
 typedef enum keyboard_key_state_t {
 
     KEYBOARD_KEY_PRESSED,
@@ -121,8 +140,5 @@ typedef struct keyboard_t {
     keyboard_key_state_t keys[NUM_KEYBOARD_KEY_STATE];
 
 } keyboard_t;
-
-/* get the name of a keyboard key */
-const char *keyboard_key_name (keyboard_key_t key);
 
 #endif /* KEYBOARD_H */

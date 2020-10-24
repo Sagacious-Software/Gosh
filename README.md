@@ -54,4 +54,3 @@ make install
 - Win32 backend
 - Wayland backend
 - MacOS backend
-- Linux framebuffer backend

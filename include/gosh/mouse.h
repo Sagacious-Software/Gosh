@@ -24,6 +24,12 @@ typedef enum mouse_button_t {
 
 } mouse_button_t;
 
+/* the names of the mouse buttons */
+extern const char *MOUSE_BUTTON_NAMES[];
+
+/* get the name of a mouse button */
+const char *mouse_button_name (mouse_button_t button);
+
 typedef enum mouse_button_state_t {
 
     MOUSE_BUTTON_PRESSED,
@@ -43,8 +49,5 @@ typedef struct mouse_t {
     mouse_button_state_t buttons[NUM_MOUSE_BUTTON];
 
 } mouse_t;
-
-/* get the name of a mouse button */
-const char *mouse_button_name (mouse_button_t button);
 
 #endif /* MOUSE_H */
