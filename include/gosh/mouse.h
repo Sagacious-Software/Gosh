@@ -46,6 +46,7 @@ typedef struct mouse_t {
     point_t position;
 
     /* the states of the mouse buttons */
+    /* TODO: consider using a mask instead */
     mouse_button_state_t buttons[NUM_MOUSE_BUTTON];
 
 } mouse_t;

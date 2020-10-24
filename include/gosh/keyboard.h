@@ -137,6 +137,7 @@ typedef enum keyboard_key_state_t {
 typedef struct keyboard_t {
 
     /* the states of the keyboard keys */
+    /* TODO: consider using a mask instead */
     keyboard_key_state_t keys[NUM_KEYBOARD_KEY_STATE];
 
 } keyboard_t;

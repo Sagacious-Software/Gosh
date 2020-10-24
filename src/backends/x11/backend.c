@@ -3,6 +3,8 @@
 
 #include <gosh/backends/x11/backend.h>
 #include <gosh/backends/x11/window.h>
+#include <gosh/backends/x11/mouse.h>
+#include <gosh/backends/x11/keyboard.h>
 
 #include <gosh/window.h>
 #include <gosh/event.h>
@@ -144,7 +146,7 @@ void backend_x11_run (backend_x11_t *backend) {
                 window_event.events.mouse.type         = EVENT_MOUSE_BUTTON;
                 window_event.events.mouse.position.x   = x11_event.xbutton.x;
                 window_event.events.mouse.position.y   = x11_event.xbutton.y;
-                window_event.events.mouse.button       = MOUSE_LEFT; /* TODO */
+                window_event.events.mouse.button       = mouse_button_x11 (x11_event.xbutton.button);
                 window_event.events.mouse.button_state = MOUSE_BUTTON_PRESSED;
 
                 break;
@@ -156,7 +158,7 @@ void backend_x11_run (backend_x11_t *backend) {
                 window_event.events.mouse.type         = EVENT_MOUSE_BUTTON;
                 window_event.events.mouse.position.x   = x11_event.xbutton.x;
                 window_event.events.mouse.position.y   = x11_event.xbutton.y;
-                window_event.events.mouse.button       = MOUSE_LEFT; /* TODO */
+                window_event.events.mouse.button       = mouse_button_x11 (x11_event.xbutton.button);
                 window_event.events.mouse.button_state = MOUSE_BUTTON_RELEASED;
 
                 break;
@@ -166,7 +168,7 @@ void backend_x11_run (backend_x11_t *backend) {
 
                 window_event.type                      = EVENT_KEYBOARD;
                 /* TODO: determine whether to include character keysym here too */
-                window_event.events.keyboard.key       = KEYBOARD_KEY_Q; /* TODO */
+                window_event.events.keyboard.key       = keyboard_key_x11 (x11_event.xkey.keycode);
                 window_event.events.keyboard.key_state = KEYBOARD_KEY_PRESSED;
 
                 break;
@@ -175,7 +177,7 @@ void backend_x11_run (backend_x11_t *backend) {
             case KeyRelease:
 
                 window_event.type                      = EVENT_KEYBOARD;
-                window_event.events.keyboard.key       = KEYBOARD_KEY_Q; /* TODO */
+                window_event.events.keyboard.key       = keyboard_key_x11 (x11_event.xkey.keycode);
                 window_event.events.keyboard.key_state = KEYBOARD_KEY_RELEASED;
 
                 break;
