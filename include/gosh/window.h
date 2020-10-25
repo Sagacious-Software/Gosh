@@ -4,6 +4,7 @@
 #include <stdbool.h>
 
 #include "backends/x11/window.h"
+#include "backends/windows/window.h"
 #include "backend.h"
 #include "event.h"
 #include "util.h"
@@ -42,6 +43,7 @@ struct window_t {
     union {
 
         window_x11_t *x11;
+        window_windows_t *windows;
 
     } windows;
 };

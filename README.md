@@ -12,6 +12,12 @@ Just run this command in the root of the repository!:
 make debug
 ```
 
+Or if you want to debug the Wine build:
+
+```bash
+make winedebug
+```
+
 ## Build and install
 
 If you just built the debug version, be sure to clean first:
@@ -27,6 +33,22 @@ When you are ready to build and install:
 ```bash
 make install
 ```
+
+### Windows build from Unix
+
+To build a Windows executable using `winegcc`, be sure to clean first:
+
+```bash
+make clean
+```
+
+And then run this:
+
+```bash
+make CC=winegcc
+```
+
+Which will produce a Windows binary!
 
 ## TODO
 

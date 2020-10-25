@@ -21,6 +21,10 @@ backend_t *create_backend (backend_type_t type) {
             backend->backends.x11 = create_backend_x11 (backend);
             break;
 
+        case BACKEND_WINDOWS:
+            backend->backends.windows = create_backend_windows (backend);
+            break;
+
         default:
             break;
     }
@@ -34,6 +38,10 @@ void destroy_backend (backend_t *backend) {
 
         case BACKEND_X11:
             destroy_backend_x11 (backend->backends.x11);
+            break;
+
+        case BACKEND_WINDOWS:
+            destroy_backend_windows (backend->backends.windows);
             break;
 
         default:
@@ -50,6 +58,9 @@ int backend_pending (backend_t *backend) {
         case BACKEND_X11:
             return backend_x11_pending (backend->backends.x11);
 
+        case BACKEND_WINDOWS:
+            return backend_windows_pending (backend->backends.windows);
+
         default:
             return false;
     }
@@ -61,6 +72,10 @@ void backend_process (backend_t *backend) {
 
         case BACKEND_X11:
             backend_x11_process (backend->backends.x11);
+            break;
+
+        case BACKEND_WINDOWS:
+            backend_windows_process (backend->backends.windows);
             break;
 
         default:

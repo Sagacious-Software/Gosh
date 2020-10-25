@@ -4,11 +4,13 @@
 #include <stdbool.h>
 
 #include "backends/x11/backend.h"
+#include "backends/windows/backend.h"
 
 typedef enum backend_type_t {
 
     BACKEND_AUTO,
     BACKEND_X11,
+    BACKEND_WINDOWS,
 
     NUM_BACKEND_TYPE
 
@@ -25,6 +27,7 @@ typedef struct backend_t {
     union {
 
         backend_x11_t *x11;
+        backend_windows_t *windows;
 
     } backends;
 

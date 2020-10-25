@@ -221,7 +221,7 @@ int main (int argc, char **argv) {
 
     /* set the regions on screen for the windows to appear */
     region_1.offset.x     = 32;
-    region_1.offset.y     = 360+32;
+    region_1.offset.y     = 32;
     region_1.dimensions.x = 480;
     region_1.dimensions.y = 360;
 
@@ -235,6 +235,10 @@ int main (int argc, char **argv) {
 
     /* create the second window and set the callback */
     state.window_2 = create_window (state.backend, region_2, "Gosh Demo Window 2", callback, &state);
+
+    /* TODO
+     * run an x11 and windows backend simultaneously
+     * in a custom run loop */
 
     /* enter the backend run loop until user exits */
     backend_run (state.backend, NULL, NULL);

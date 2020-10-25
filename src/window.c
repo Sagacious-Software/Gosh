@@ -25,6 +25,13 @@ window_t *create_window (backend_t *backend,
                                                      title);
             break;
 
+        case BACKEND_WINDOWS:
+            window->windows.windows = create_window_windows (backend->backends.windows,
+                                                             window,
+                                                             region,
+                                                             title);
+            break;
+
         default:
             break;
     }
@@ -40,6 +47,10 @@ void destroy_window (window_t *window) {
             destroy_window_x11 (window->windows.x11);
             break;
 
+        case BACKEND_WINDOWS:
+            destroy_window_windows (window->windows.windows);
+            break;
+
         default:
             break;
     }
@@ -53,6 +64,10 @@ void close_window (window_t *window) {
 
         case BACKEND_X11:
             close_window_x11 (window->windows.x11);
+            break;
+
+        case BACKEND_WINDOWS:
+            close_window_windows (window->windows.windows);
             break;
 
         default:
@@ -79,6 +94,10 @@ void update_window_region (window_t *window, region_t region) {
 
         case BACKEND_X11:
             update_window_x11_region (window->windows.x11, region);
+            break;
+
+        case BACKEND_WINDOWS:
+            update_window_windows_region (window->windows.windows, region);
             break;
 
         default:
@@ -156,6 +175,9 @@ void *pack_color (window_t *window, rgba_color_t color) {
         case BACKEND_X11:
             return pack_color_x11 (window->windows.x11, color);
 
+        case BACKEND_WINDOWS:
+            return pack_color_windows (window->windows.windows, color);
+
         default:
             return NULL;
     }
@@ -167,6 +189,9 @@ rgba_color_t unpack_color (window_t *window, void *packed_color) {
 
         case BACKEND_X11:
             return unpack_color_x11 (window->windows.x11, packed_color);
+
+        case BACKEND_WINDOWS:
+            return unpack_color_windows (window->windows.windows, packed_color);
 
         default:
             return NULL_COLOR;

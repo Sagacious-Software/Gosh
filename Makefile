@@ -6,14 +6,17 @@ DEMO_OBJECT_DIR = $(OBJECT_DIR)/demo
 BUILD_DIR       = build
 
 CC       = cc
+WINECC   = winegcc
 CFLAGS   = -Wall -Werror -Wpedantic -ansi -I$(INCLUDE_DIR) -D_POSIX_C_SOURCE=199309L #TODO: remove this feature test macro
 LIBS     = x11
 LDFLAGS  = $(shell pkg-config --cflags --libs $(LIBS))
 
-DEBUGGER = gdb
+DEBUGGER      = gdb
+WINE_DEBUGGER = winedbg
 
 OBJECT_DIR_STAMP      = $(OBJECT_DIR)/.dirstamp \
-                        $(OBJECT_DIR)/backends/x11/.dirstamp
+                        $(OBJECT_DIR)/backends/x11/.dirstamp \
+                        $(OBJECT_DIR)/backends/windows/.dirstamp
 DEMO_OBJECT_DIR_STAMP = $(DEMO_OBJECT_DIR)/.dirstamp
 BUILD_DIR_STAMP       = $(BUILD_DIR)/.dirstamp
 
@@ -47,6 +50,12 @@ release: $(TARGET_DEMO) static shared
 debug: CFLAGS += -Og -g -DDEBUG
 debug: demo
 	$(DEBUGGER) -ex run --arg $(TARGET_DEMO)
+
+.PHONY: winedebug
+winedebug: CFLAGS += -Og -g -DDEBUG
+winedebug: CC = $(WINECC)
+winedebug: demo
+	$(WINE_DEBUGGER) --gdb $(TARGET_DEMO)
 
 .PHONY: static
 static: $(TARGET_STATIC)
