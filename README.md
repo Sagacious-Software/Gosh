@@ -40,7 +40,7 @@ make install
 
 - Complete the keycode mappings
 - Proper generic color handling in X11
-- Some kind of X11 vsync mechanism and associated event
+- Proper vsync!
 - Filter out repeat resize events in event queue (to avoid resize drawing lag)
 - X11 MIT-SHM extension when available
 - Fix "BadDrawable" on attempt to draw while window is closing

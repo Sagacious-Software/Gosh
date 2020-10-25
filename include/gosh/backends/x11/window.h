@@ -25,6 +25,9 @@ typedef struct window_x11_t {
     /* whether the window is alive on the server or not */
     bool alive;
 
+    /* the graphics context for x11 drawing */
+    GC graphics_context;
+
     /* the image holding the drawing buffer */
     /* TODO: implement MIT-SHM support */
     XImage *image;
@@ -45,5 +48,11 @@ void update_window_x11_region (window_x11_t *window, region_t region);
 
 /* initialize the drawing buffer */
 void init_window_x11_buffer (window_x11_t *window, region_t region);
+
+/* allocate new memory for a pixel value and fill it with binary packed color data */
+void *pack_color_x11 (window_x11_t *window, rgba_color_t color);
+
+/* unpack binary packed color data */
+rgba_color_t unpack_color_x11 (window_x11_t *window, void *packed_color);
 
 #endif /* WINDOW_X11_H */

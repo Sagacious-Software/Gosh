@@ -278,7 +278,7 @@ void backend_x11_process (backend_x11_t *backend) {
 
             /* save the old region of the window */
             window_event.events.move_resize.old_region
-                = window->window->buffer.region;
+                = window->window->region;
 
             /* get the new region of the window */
             window_event.events.move_resize.new_region.offset.x

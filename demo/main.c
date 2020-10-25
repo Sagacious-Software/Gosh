@@ -5,6 +5,11 @@
 
 #include <gosh/window.h>
 
+double noise () {
+
+    return rand () / (double) RAND_MAX;
+}
+
 /* struct to hold the animation state */
 typedef struct state_t {
 
@@ -21,38 +26,28 @@ typedef struct state_t {
 void draw (window_t *window, state_t *state) {
 
     int x, y, width, height;
-    uint8_t *pixels;
-    double r, g, b;
+    rgba_color_t color;
 
     /* choose yellow for the first window */
-    if (window == state->window_1) {
-
-        r = 1;
-        g = 1;
-        b = 0;
+    if (window == state->window_1)
+        color = make_color (1, 1, 0, 1);
 
     /* and magenta for the second window */
-    } else {
-
-        r = 1;
-        g = 0;
-        b = 1;
-    }
+    else
+        color = make_color (1, 0, 1, 1);
 
     /* TODO: do a funky demo */
-    width  = window->buffer.region.dimensions.x;
-    height = window->buffer.region.dimensions.y;
-    pixels = (uint8_t *) window->buffer.pixels;
+    width  = window->region.dimensions.x;
+    height = window->region.dimensions.y;
     for (y = 0; y < height; y++)
-        for (x = 0; x < width; x++) {
-
-            int i = x + y * width;
-
-            pixels[i * 4 + 0] = rand () % 256 * b; /* blue  */
-            pixels[i * 4 + 1] = rand () % 256 * g; /* green */
-            pixels[i * 4 + 2] = rand () % 256 * r; /* red   */
-            pixels[i * 4 + 3] = 255;               /* alpha */
-        }
+        for (x = 0; x < width; x++)
+            set_pixel (window,
+                       make_point(x, y),
+                       multiply_colors (color,
+                                        make_color (noise (),
+                                                    noise (),
+                                                    noise (),
+                                                    1)));
     
     /* update the contents of the window */
     update_window (window);

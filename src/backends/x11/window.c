@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdint.h>
 #include <stdio.h>
 
 #include <X11/Xutil.h>
@@ -37,6 +38,9 @@ window_x11_t *create_window_x11 (backend_x11_t *backend,
                                                CopyFromParent,
                                                0,
                                                &attributes);
+
+    /* TODO: explicitly get the proper screen or something? */
+    window_x11->graphics_context = DefaultGC (backend->display, DefaultScreen (backend->display));
 
     /* configure the window title name */
     if (XStringListToTextProperty (&title, 1, &window_name) == 0) {
@@ -117,17 +121,12 @@ void close_window_x11 (window_x11_t *window) {
 
 void update_window_x11_region (window_x11_t *window, region_t region) {
 
-    Display *display;
-    GC graphics_context;
-
     if (window->image == NULL || !window->alive)
         return;
 
-    display = window->backend->display;
-    graphics_context = DefaultGC (display, DefaultScreen (display));
-    XPutImage (display,
+    XPutImage (window->backend->display,
                window->window_handle,
-               graphics_context,
+               window->graphics_context,
                window->image,
                region.offset.x,
                region.offset.y,
@@ -142,6 +141,7 @@ void init_window_x11_buffer (window_x11_t *window, region_t region) {
     /* TODO: figure out bits per pixel and stuff??????? */
 
     Display *display = window->backend->display;
+    /* TODO: get the proper screen? */
     int depth = DefaultDepth (display, DefaultScreen (display));
 
     /* free the existing image if it exists */
@@ -149,8 +149,9 @@ void init_window_x11_buffer (window_x11_t *window, region_t region) {
         destroy_window_x11_buffer (window);
 
     /* configure the buffer spec for the new image */
-    window->window->buffer.region = region;
-    window->window->buffer.pixels
+    window->window->region = region;
+    window->window->bytes_per_pixel = 4;
+    window->window->pixels
         = malloc (region.dimensions.x * region.dimensions.y * 4);
 
     /* create the new image matching the window's dimensions */
@@ -159,9 +160,44 @@ void init_window_x11_buffer (window_x11_t *window, region_t region) {
                                   depth,
                                   ZPixmap,
                                   0,
-                                  window->window->buffer.pixels,
+                                  window->window->pixels,
                                   region.dimensions.x,
                                   region.dimensions.y,
                                   32,
                                   0);
+}
+
+void *pack_color_x11 (window_x11_t *window, rgba_color_t color) {
+
+    /* TODO: make this actually generic */
+
+    uint8_t *pixel;
+    uint8_t red, green, blue, alpha;
+
+    red   = color.red   * 255;
+    green = color.green * 255;
+    blue  = color.blue  * 255;
+    alpha = color.alpha * 255;
+
+    pixel = malloc (4);
+    pixel[0] = blue;
+    pixel[1] = green;
+    pixel[2] = red;
+    pixel[3] = alpha;
+
+    return (void *) pixel;
+}
+
+rgba_color_t unpack_color_x11 (window_x11_t *window, void *packed_color) {
+
+    uint8_t *pixel;
+    rgba_color_t color;
+
+    pixel = (uint8_t *) packed_color;
+    color.blue  = pixel[0] / 255.0;
+    color.green = pixel[1] / 255.0;
+    color.red   = pixel[2] / 255.0;
+    color.alpha = pixel[3] / 255.0;
+
+    return color;
 }

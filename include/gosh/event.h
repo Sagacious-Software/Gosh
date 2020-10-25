@@ -3,7 +3,6 @@
 
 #include "mouse.h"
 #include "keyboard.h"
-#include "buffer_spec.h"
 #include "util.h"
 
 typedef enum event_type_t {

@@ -6,7 +6,6 @@
 #include "backends/x11/window.h"
 #include "backend.h"
 #include "event.h"
-#include "buffer_spec.h"
 #include "util.h"
 
 typedef struct window_t window_t;
@@ -24,15 +23,21 @@ struct window_t {
     /* user data that is passed to the callback */
     void *data;
 
-    /* the pixel buffer */
-    buffer_spec_t buffer;
+    /* the position and size of the buffer on screen */
+    region_t region;
+
+    /* the pixel format */
+    size_t bytes_per_pixel;
+
+    /* the raw pixel data */
+    void *pixels;
+
+    /* whether the window is currently mapped (on screen) */
+    bool mapped;
 
     /* state of the mouse and keyboard in the window */
     mouse_t mouse;
     keyboard_t keyboard;
-
-    /* whether the window is currently mapped (on screen) */
-    bool mapped;
 
     union {
 
@@ -59,5 +64,23 @@ void update_window_region (window_t *window, region_t region);
 
 /* send an event to a window */
 void handle_event (window_t *window, event_t event);
+
+/* get the size of the pixel buffer in bytes */
+int window_buffer_size (window_t *window);
+
+/* get the memory location of a pixel in a pixel buffer */
+void *pixel_address (window_t *window, point_t position);
+
+/* set the value of a pixel to a given rgba color */
+void set_pixel (window_t *window, point_t position, rgba_color_t color);
+
+/* retrieve the value of a pixel */
+rgba_color_t get_pixel (window_t *window, point_t position);
+
+/* allocate new memory for a pixel value and fill it with binary packed color data */
+void *pack_color (window_t *window, rgba_color_t color);
+
+/* unpack binary packed color data */
+rgba_color_t unpack_color (window_t *window, void *packed_color);
 
 #endif /* WINDOW_H */
