@@ -7,7 +7,12 @@ backend_t *create_backend (backend_type_t type) {
     backend_t *backend;
 
     if (type == BACKEND_AUTO)
-        type = BACKEND_X11; /* TODO: for real, detect the most appropriate */
+#ifdef ENABLE_BACKEND_X11
+        type = BACKEND_X11;
+#endif
+#ifdef ENABLE_BACKEND_WINDOWS
+        type = BACKEND_WINDOWS;
+#endif
     /* TODO: or allow environment variable overrides
      * use the GOSH_BACKEND variable */
 
@@ -17,14 +22,18 @@ backend_t *create_backend (backend_type_t type) {
 
     switch (type) {
 
+#ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
             backend->backends.x11 = create_backend_x11 (backend);
             break;
 
+#endif
+#ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
             backend->backends.windows = create_backend_windows (backend);
             break;
 
+#endif
         default:
             break;
     }
@@ -36,14 +45,18 @@ void destroy_backend (backend_t *backend) {
 
     switch (backend->type) {
 
+#ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
             destroy_backend_x11 (backend->backends.x11);
             break;
 
+#endif
+#ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
             destroy_backend_windows (backend->backends.windows);
             break;
 
+#endif
         default:
             break;
     }
@@ -55,12 +68,16 @@ int backend_pending (backend_t *backend) {
 
     switch (backend->type) {
 
+#ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
             return backend_x11_pending (backend->backends.x11);
 
+#endif
+#ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
             return backend_windows_pending (backend->backends.windows);
 
+#endif
         default:
             return false;
     }
@@ -70,14 +87,18 @@ void backend_process (backend_t *backend) {
 
     switch (backend->type) {
 
+#ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
             backend_x11_process (backend->backends.x11);
             break;
 
+#endif
+#ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
             backend_windows_process (backend->backends.windows);
             break;
 
+#endif
         default:
             break;
     }

@@ -18,6 +18,7 @@ window_t *create_window (backend_t *backend,
 
     switch (backend->type) {
 
+#ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
             window->windows.x11 = create_window_x11 (backend->backends.x11,
                                                      window,
@@ -25,6 +26,8 @@ window_t *create_window (backend_t *backend,
                                                      title);
             break;
 
+#endif
+#ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
             window->windows.windows = create_window_windows (backend->backends.windows,
                                                              window,
@@ -32,6 +35,7 @@ window_t *create_window (backend_t *backend,
                                                              title);
             break;
 
+#endif
         default:
             break;
     }
@@ -43,14 +47,18 @@ void destroy_window (window_t *window) {
 
     switch (window->backend->type) {
 
+#ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
             destroy_window_x11 (window->windows.x11);
             break;
 
+#endif
+#ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
             destroy_window_windows (window->windows.windows);
             break;
 
+#endif
         default:
             break;
     }
@@ -62,14 +70,18 @@ void close_window (window_t *window) {
 
     switch (window->backend->type) {
 
+#ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
             close_window_x11 (window->windows.x11);
             break;
 
+#endif
+#ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
             close_window_windows (window->windows.windows);
             break;
 
+#endif
         default:
             break;
     }
@@ -92,14 +104,18 @@ void update_window_region (window_t *window, region_t region) {
 
     switch (window->backend->type) {
 
+#ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
             update_window_x11_region (window->windows.x11, region);
             break;
 
+#endif
+#ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
             update_window_windows_region (window->windows.windows, region);
             break;
 
+#endif
         default:
             break;
     }
@@ -172,12 +188,16 @@ void *pack_color (window_t *window, rgba_color_t color) {
 
     switch (window->backend->type) {
 
+#ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
             return pack_color_x11 (window->windows.x11, color);
 
+#endif
+#ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
             return pack_color_windows (window->windows.windows, color);
 
+#endif
         default:
             return NULL;
     }
@@ -187,12 +207,16 @@ rgba_color_t unpack_color (window_t *window, void *packed_color) {
 
     switch (window->backend->type) {
 
+#ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
             return unpack_color_x11 (window->windows.x11, packed_color);
 
+#endif
+#ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
             return unpack_color_windows (window->windows.windows, packed_color);
 
+#endif
         default:
             return NULL_COLOR;
     }

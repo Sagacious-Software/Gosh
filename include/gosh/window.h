@@ -3,8 +3,14 @@
 
 #include <stdbool.h>
 
+#ifdef ENABLE_BACKEND_X11
 #include "backends/x11/window.h"
+#endif
+
+#ifdef ENABLE_BACKEND_WINDOWS
 #include "backends/windows/window.h"
+#endif
+
 #include "backend.h"
 #include "event.h"
 #include "util.h"
@@ -42,8 +48,12 @@ struct window_t {
 
     union {
 
+#ifdef ENABLE_BACKEND_X11
         window_x11_t *x11;
+#endif
+#ifdef ENABLE_BACKEND_WINDOWS
         window_windows_t *windows;
+#endif
 
     } windows;
 };

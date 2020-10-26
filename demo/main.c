@@ -217,7 +217,7 @@ int main (int argc, char **argv) {
 
     /* create the backend
      * BACKEND_AUTO automatically decides which backend to use */
-    state.backend = create_backend (BACKEND_AUTO);
+    state.backend = create_backend (BACKEND_WINDOWS);
 
     /* set the regions on screen for the windows to appear */
     region_1.offset.x     = 32;

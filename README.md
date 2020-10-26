@@ -45,7 +45,7 @@ make clean
 And then run this:
 
 ```bash
-make CC=winegcc
+make winerelease
 ```
 
 Which will produce a Windows binary!
@@ -57,6 +57,7 @@ Which will produce a Windows binary!
 - Setup for multiple demos showcasing different features
 - Keeping proper track of closed windows
 - Mechanism for detecting when last window is closed
+- Consider making backend chosen completely at compile time
 
 ### X11
 

@@ -3,14 +3,23 @@
 
 #include <stdbool.h>
 
+#ifdef ENABLE_BACKEND_X11
 #include "backends/x11/backend.h"
+#endif
+
+#ifdef ENABLE_BACKEND_WINDOWS
 #include "backends/windows/backend.h"
+#endif
 
 typedef enum backend_type_t {
 
     BACKEND_AUTO,
+#ifdef ENABLE_BACKEND_X11
     BACKEND_X11,
+#endif
+#ifdef ENABLE_BACKEND_WINDOWS
     BACKEND_WINDOWS,
+#endif
 
     NUM_BACKEND_TYPE
 
@@ -26,8 +35,12 @@ typedef struct backend_t {
 
     union {
 
+#ifdef ENABLE_BACKEND_X11
         backend_x11_t *x11;
+#endif
+#ifdef ENABLE_BACKEND_WINDOWS
         backend_windows_t *windows;
+#endif
 
     } backends;
 

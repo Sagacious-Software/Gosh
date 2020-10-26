@@ -5,30 +5,38 @@ DEMO_SOURCE_DIR = demo
 DEMO_OBJECT_DIR = $(OBJECT_DIR)/demo
 BUILD_DIR       = build
 
-CC       = cc
-WINECC   = winegcc
-CFLAGS   = -Wall -Werror -Wpedantic -ansi -I$(INCLUDE_DIR) -D_POSIX_C_SOURCE=199309L #TODO: remove this feature test macro
-LIBS     = x11
-LDFLAGS  = $(shell pkg-config --cflags --libs $(LIBS))
+CC     = cc
+WINECC = winegcc
 
 DEBUGGER      = gdb
 WINE_DEBUGGER = winedbg
 
-OBJECT_DIR_STAMP      = $(OBJECT_DIR)/.dirstamp \
-                        $(OBJECT_DIR)/backends/x11/.dirstamp \
-                        $(OBJECT_DIR)/backends/windows/.dirstamp
-DEMO_OBJECT_DIR_STAMP = $(DEMO_OBJECT_DIR)/.dirstamp
-BUILD_DIR_STAMP       = $(BUILD_DIR)/.dirstamp
+CFLAGS      = -Wall -Werror -Wpedantic -I$(INCLUDE_DIR) -D_POSIX_C_SOURCE=199309L #TODO: remove this feature test macro
+CFLAGS_UNIX = -ansi -DENABLE_BACKEND_X11
+CFLAGS_WINE = -std=c99 -DENABLE_BACKEND_WINDOWS
+
+LIBS_UNIX    = x11
+LDFLAGS_UNIX = $(shell pkg-config --cflags --libs $(LIBS_UNIX))
+
+OBJECT_DIR_STAMP                 = $(OBJECT_DIR)/.dirstamp
+OBJECT_DIR_BACKEND_X11_STAMP     = $(OBJECT_DIR)/backends/x11/.dirstamp
+OBJECT_DIR_BACKEND_WINDOWS_STAMP = $(OBJECT_DIR)/backends/windows/.dirstamp
+DEMO_OBJECT_DIR_STAMP            = $(DEMO_OBJECT_DIR)/.dirstamp
+BUILD_DIR_STAMP                  = $(BUILD_DIR)/.dirstamp
 
 TARGET_STATIC = $(BUILD_DIR)/libgosh.a
 TARGET_SHARED = $(BUILD_DIR)/libgosh.so
 TARGET_DEMO   = $(BUILD_DIR)/gosh_demo
 
-SOURCES        = $(wildcard $(SOURCE_DIR)/*.c $(SOURCE_DIR)/backends/*/*.c)
-DEMO_SOURCES   = $(wildcard $(DEMO_SOURCE_DIR)/*.c)
-OBJECTS_STATIC = $(patsubst $(SOURCE_DIR)/%.c,$(OBJECT_DIR)/%_static.o,$(SOURCES))
-OBJECTS_SHARED = $(patsubst $(SOURCE_DIR)/%.c,$(OBJECT_DIR)/%_shared.o,$(SOURCES))
-OBJECTS_DEMO   = $(patsubst $(DEMO_SOURCE_DIR)/%.c,$(DEMO_OBJECT_DIR)/%.o,$(DEMO_SOURCES))
+SOURCES                        = $(wildcard $(SOURCE_DIR)/*.c)
+SOURCES_BACKEND_X11            = $(wildcard $(SOURCE_DIR)/backends/x11/*.c)
+SOURCES_BACKEND_WINDOWS        = $(wildcard $(SOURCE_DIR)/backends/windows/*.c)
+DEMO_SOURCES                   = $(wildcard $(DEMO_SOURCE_DIR)/*.c)
+OBJECTS_STATIC                 = $(patsubst $(SOURCE_DIR)/%.c,$(OBJECT_DIR)/%_static.o,$(SOURCES))
+OBJECTS_BACKEND_X11_STATIC     = $(patsubst $(SOURCE_DIR)/%.c,$(OBJECT_DIR)/%_static.o,$(SOURCES_BACKEND_X11))
+OBJECTS_BACKEND_WINDOWS_STATIC = $(patsubst $(SOURCE_DIR)/%.c,$(OBJECT_DIR)/%_static.o,$(SOURCES_BACKEND_WINDOWS))
+OBJECTS_SHARED                 = $(patsubst $(SOURCE_DIR)/%.c,$(OBJECT_DIR)/%_shared.o,$(SOURCES))
+OBJECTS_DEMO                   = $(patsubst $(DEMO_SOURCE_DIR)/%.c,$(DEMO_OBJECT_DIR)/%.o,$(DEMO_SOURCES))
 
 DEPENDENCIES_STATIC = $(OBJECTS_STATIC:%.o=%.d)
 DEPENDENCIES_SHARED = $(OBJECTS_SHARED:%.o=%.d)
@@ -40,19 +48,26 @@ endif
 INSTALL_PREFIX = $(DESTDIR)$(PREFIX)
 
 .PHONY: all
+all: CFLAGS  += $(CFLAGS_UNUX)
+all: LDFLAGS += $(LDFLAGS_UNIX)
 all: release
+
+.PHONY: winerelease
+winerelease: CFLAGS  += $(CFLAGS_WINE)
+winerelease: release
 
 .PHONY: release
 release: CFLAGS += -O3
 release: $(TARGET_DEMO) static shared
 
 .PHONY: debug
-debug: CFLAGS += -Og -g -DDEBUG
+debug: CFLAGS  += -Og -g -DDEBUG $(CFLAGS_UNIX)
+debug: LDFLAGS += LDLAGS_UNIX
 debug: demo
 	$(DEBUGGER) -ex run --arg $(TARGET_DEMO)
 
 .PHONY: winedebug
-winedebug: CFLAGS += -Og -g -DDEBUG
+winedebug: CFLAGS += -Og -g -DDEBUG $(CFLAGS_WINE)
 winedebug: CC = $(WINECC)
 winedebug: demo
 	$(WINE_DEBUGGER) --gdb $(TARGET_DEMO)
