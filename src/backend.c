@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include <gosh/backend.h>
 
@@ -14,14 +15,18 @@ backend_t *create_backend (backend_type_t type) {
 
     backend_t *backend;
 
-    if (type == BACKEND_AUTO)
+    if (type == BACKEND_AUTO) {
+
+        /* TODO: or allow environment variable overrides
+         * use the GOSH_BACKEND variable
+         * ONLY though , if BACKEND_AUTO is used */
+
 #if defined (ENABLE_BACKEND_X11)
         type = BACKEND_X11;
 #elif defined (ENABLE_BACKEND_WINDOWS)
         type = BACKEND_WINDOWS;
 #endif
-    /* TODO: or allow environment variable overrides
-     * use the GOSH_BACKEND variable */
+    }
 
     backend = malloc (sizeof (backend_t));
     backend->type = type;
@@ -42,7 +47,8 @@ backend_t *create_backend (backend_type_t type) {
 
 #endif
         default:
-            break;
+            free (backend);
+            return NULL;
     }
 
     return backend;

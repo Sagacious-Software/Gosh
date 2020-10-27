@@ -3,6 +3,8 @@
 
 #include <stdbool.h>
 
+#include "util.h"
+
 typedef enum backend_type_t {
 
     BACKEND_AUTO,
@@ -26,6 +28,7 @@ typedef struct backend_t {
 
 } backend_t;
 
+/* return NULL on failure to create requested backend */
 backend_t *create_backend (backend_type_t type);
 void destroy_backend (backend_t *backend);
 

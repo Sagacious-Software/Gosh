@@ -4,7 +4,8 @@
 
 #include <X11/Xutil.h>
 
-#include <gosh/backends/x11/window.h>
+#include "window.h"
+
 #include <gosh/window.h>
 
 window_x11_t *create_window_x11 (backend_x11_t *backend,

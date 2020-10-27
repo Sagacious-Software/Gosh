@@ -28,24 +28,25 @@ window_t *create_window (backend_t *backend,
 
 #ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
-            window->windows.x11 = create_window_x11 (backend->backend,
-                                                     window,
-                                                     region,
-                                                     title);
+            window->window = create_window_x11 (backend->backend,
+                                                window,
+                                                region,
+                                                title);
             break;
 
 #endif
 #ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
-            window->windows.windows = create_window_windows (backend->backend,
-                                                             window,
-                                                             region,
-                                                             title);
+            window->window = create_window_windows (backend->backend,
+                                                    window,
+                                                    region,
+                                                    title);
             break;
 
 #endif
         default:
-            break;
+            free (window);
+            return NULL;
     }
 
     return window;

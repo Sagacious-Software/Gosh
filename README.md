@@ -4,60 +4,58 @@ Simple and easy to use cross-platform window system API.
 
 It aims to be similar to SDL, but more lightweight, and designed around giving you easy access to the window's buffer in software.
 
-## Try the demo
+## Build
 
-Just run this command in the root of the repository!:
+First edit `meson_options.txt` and choose which backends you would like to compile support for.
+Set the ones you would like to enable to `enabled` and the rest of them to `disabled`.
+Note that if you are on Unix and would like to use the Windows backend you have to have Wine installed (see below).
 
-```bash
-make debug
-```
-
-Or if you want to debug the Wine build:
+Then build the library and the demos by running this in the root of the repository:
 
 ```bash
-make winedebug
+meson build --buildtype release
+cd build
+meson compile
 ```
 
-## Build and install
+(Optionally do `--buildtype debug` instead if you would like to keep debugging information and optimizations off, e.g., if you want to do development.)
 
-If you just built the debug version, be sure to clean first:
+## Try the demos
+
+Try the demos by running this:
 
 ```bash
-make clean
+meson test
 ```
 
-(Otherwise you won't get optimizations!)
+## Install
 
-When you are ready to build and install:
+And when you are ready to install:
 
 ```bash
-make install
+meson install
 ```
 
-### Windows build from Unix
+### Wine build
 
-To build a Windows executable using `winegcc`, be sure to clean first:
+If you are on Unix and have Wine installed you can enable the Windows backend option in `meson_options.txt`.
+
+Then do this back in the root of the repository if you are on Unix and you would like to do a Wine build:
 
 ```bash
-make clean
+CC=winegcc meson build --buildtype release
+cd build
+meson compile
 ```
-
-And then run this:
-
-```bash
-make winerelease
-```
-
-Which will produce a Windows binary!
 
 ## TODO
 
 ### General
 
 - Setup for multiple demos showcasing different features
-- Keeping proper track of closed windows
-- Mechanism for detecting when last window is closed
-- Consider making backend chosen completely at compile time
+- Screenshot/gif
+- Proper error handling
+- Optimisations optimisations optimisanions !!!!!
 
 ### X11
 
@@ -67,10 +65,11 @@ Which will produce a Windows binary!
 - Filter out repeat resize events in event queue (to avoid resize drawing lag)
 - X11 MIT-SHM extension when available
 - Fix "BadDrawable" on attempt to draw while window is closing
+- Mechanism for detecting when last window is closed
+- Keeping proper track of closed windows
 
 ### Backends
 
 - Auto detect backend (with environment variable override)
-- Windows backend
 - Wayland backend
 - MacOS backend

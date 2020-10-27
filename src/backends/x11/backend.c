@@ -3,10 +3,10 @@
 
 #include <X11/Xutil.h>
 
-#include <gosh/backends/x11/backend.h>
-#include <gosh/backends/x11/window.h>
-#include <gosh/backends/x11/mouse.h>
-#include <gosh/backends/x11/keyboard.h>
+#include "backend.h"
+#include "window.h"
+#include "mouse.h"
+#include "keyboard.h"
 
 #include <gosh/window.h>
 #include <gosh/event.h>
