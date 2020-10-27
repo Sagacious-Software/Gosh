@@ -20,6 +20,20 @@ meson compile
 
 (Optionally do `--buildtype debug` instead if you would like to keep debugging information and optimizations off, e.g., if you want to do development.)
 
+### Wine build
+
+If you are on Unix and have Wine installed you can enable the Windows backend option in `meson_options.txt`.
+
+Then do this back in the root of the repository if you are on Unix and you would like to do a Wine build:
+
+```bash
+CC=winegcc meson build --buildtype release
+cd build
+meson compile
+```
+
+Again, you can change `release` to `debug` if you like!
+
 ## Try the demos
 
 Try the demos by running this:
@@ -34,18 +48,6 @@ And when you are ready to install:
 
 ```bash
 meson install
-```
-
-### Wine build
-
-If you are on Unix and have Wine installed you can enable the Windows backend option in `meson_options.txt`.
-
-Then do this back in the root of the repository if you are on Unix and you would like to do a Wine build:
-
-```bash
-CC=winegcc meson build --buildtype release
-cd build
-meson compile
 ```
 
 ## TODO
