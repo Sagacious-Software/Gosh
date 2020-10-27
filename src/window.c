@@ -45,8 +45,14 @@ window_t *create_window (backend_t *backend,
 
 #endif
         default:
-            free (window);
-            return NULL;
+            goto failure;
+    }
+
+    if (window->window == NULL) {
+
+failure:
+        free (window);
+        return NULL;
     }
 
     return window;

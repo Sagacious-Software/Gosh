@@ -1,9 +1,9 @@
 #ifndef WINDOW_WINDOWS_H
 #define WINDOW_WINDOWS_H
 
-#include <stdbool.h>
-
 #include <windows.h>
+
+#include <stdbool.h>
 
 #include <gosh/util.h>
 

@@ -47,8 +47,14 @@ backend_t *create_backend (backend_type_t type) {
 
 #endif
         default:
-            free (backend);
-            return NULL;
+            goto failure;
+    }
+
+    if (backend->backend == NULL) {
+
+failure:
+        free (backend);
+        return NULL;
     }
 
     return backend;

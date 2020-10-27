@@ -1,12 +1,10 @@
 project('gosh',
         'c',
         version : '0.0.1',
-        license : 'MIT',
-        default_options : ['c_std=c89'])
+        license : 'MIT')
 
 # TODO: figure out best way to have default warnings / errors
-# TODO: remove this test macro after getting rid of the x11 hack code
-cargs = ['-Wall', '-Werror', '-Wpedantic', '-D_POSIX_C_SOURCE=199309L']
+cargs = ['-Wall', '-Werror']
 
 deps = []
 
@@ -38,7 +36,9 @@ src_backend_windows = ['src/backends/windows/backend.c',
 
 if get_option('enable_backend_x11').enabled()
     src_lib += src_backend_x11
-    cargs += ['-DENABLE_BACKEND_X11']
+# TODO: remove this test macro after getting rid of the x11 hack code
+# TODO: figure out best way to default to ansi C when not requiring windows
+    cargs += ['-DENABLE_BACKEND_X11', '-D_POSIX_C_SOURCE=199309L', '-std=c89', '-Wpedantic']
     deps += [dependency('x11')]
 endif
 
@@ -57,9 +57,10 @@ lib = library('gosh',
                install : true)
 
 demo1 = executable('gosh_demo1',
-                   sources : 'demos/demo1.c',
-                   link_with : lib,
+                   sources : ['demos/demo1.c'] + src_lib,
+                   #link_with : lib,
                    include_directories : inc_dir,
+                   dependencies : deps,
                    c_args : cargs,
                    install : true)
 

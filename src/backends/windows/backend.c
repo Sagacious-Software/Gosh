@@ -62,12 +62,12 @@ backend_windows_t *create_backend_windows () {
     /* register the window class */
     class.cbSize        = sizeof (WNDCLASSEX);
     class.style         = 0; /* TODO: investigate */
-    class.lpfnWindProc  = process_Window;
+    class.lpfnWndProc  = process_window;
     class.cbClsExtra    = 0;
     class.cbWndExtra    = 0;
     class.hInstance     = handle;
     class.hIcon         = LoadIcon   (NULL, IDI_APPLICATION); /* TODO: investigate */
-    class.hCursor       = LoadCursor (NULL, IDI_ARROW); /* TODO: investigate */
+    class.hCursor       = LoadCursor (NULL, IDC_ARROW); /* TODO: investigate */
     class.hbrBackground = (HBRUSH) (COLOR_WINDOW + 1); /* TODO: investigate */
     class.lpszMenuName  = NULL; /* TODO: investigate */
     class.lpszClassName = WINDOW_CLASS_NAME;
@@ -75,6 +75,7 @@ backend_windows_t *create_backend_windows () {
 
     if (!RegisterClassEx (&class))
         error_windows ("Gosh Error", "Failed to register Windows window class.");
+
 
     return backend_windows;
 }

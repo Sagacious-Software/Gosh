@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "window.h"
+#include "util.h"
 
 #include <gosh/window.h>
 
@@ -19,10 +20,10 @@ window_windows_t *create_window_windows (backend_windows_t *backend,
                                                   WINDOW_CLASS_NAME,
                                                   title,
                                                   WS_OVERLAPPEDWINDOW, /* TODO: investigate */
-                                                  region.position.x || CW_USEDEFAULT,
-                                                  region.position.y || CW_USEDEFAULT,
-                                                  region.dimensions.x || CW_USEDEFAULT,
-                                                  region.dimensions.y || CW_USEDEFAULT,
+                                                  region.offset.x     ? region.offset.x     : CW_USEDEFAULT,
+                                                  region.offset.y     ? region.offset.y     : CW_USEDEFAULT,
+                                                  region.dimensions.x ? region.dimensions.x : CW_USEDEFAULT,
+                                                  region.dimensions.y ? region.dimensions.y : CW_USEDEFAULT,
                                                   NULL,
                                                   NULL,
                                                   backend->handle,
@@ -32,10 +33,18 @@ window_windows_t *create_window_windows (backend_windows_t *backend,
     ShowWindow (window_windows->handle, SW_SHOWNORMAL);
     UpdateWindow (window_windows->handle);
 
+    /* TODO: put this some where better */
+    window->region = region;
+    window->bytes_per_pixel = 4;
+    window->pixels
+        = malloc (region.dimensions.x * region.dimensions.y * 4);
+
     return window_windows;
 }
 
 void destroy_window_windows (window_windows_t *window) {
+
+    free (window->window->pixels);
 
     PostQuitMessage (0);
 

@@ -18,13 +18,13 @@ cd build
 meson compile
 ```
 
-(Optionally do `--buildtype debug` instead if you would like to keep debugging information and optimizations off, e.g., if you want to do development.)
+(Optionally do `--buildtype debug` instead if you would like to keep debugging information and turn optimizations off, e.g., if you want to do development.)
 
 ### Wine build
 
 If you are on Unix and have Wine installed you can enable the Windows backend option in `meson_options.txt`.
 
-Then do this back in the root of the repository if you are on Unix and you would like to do a Wine build:
+Then do this back in the root of the repository if you would like to do a Wine build:
 
 ```bash
 CC=winegcc meson build --buildtype release
