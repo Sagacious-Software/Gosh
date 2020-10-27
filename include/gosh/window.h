@@ -3,14 +3,6 @@
 
 #include <stdbool.h>
 
-#ifdef ENABLE_BACKEND_X11
-#include "backends/x11/window.h"
-#endif
-
-#ifdef ENABLE_BACKEND_WINDOWS
-#include "backends/windows/window.h"
-#endif
-
 #include "backend.h"
 #include "event.h"
 #include "util.h"
@@ -22,6 +14,9 @@ struct window_t {
 
     /* the backend the window is associated with */
     backend_t *backend;
+
+    /* the backend specific window instance */
+    void *window;
 
     /* the function that is called to handle window events
      * this can be null if this is not needed */
@@ -45,17 +40,6 @@ struct window_t {
     /* state of the mouse and keyboard in the window */
     mouse_t mouse;
     keyboard_t keyboard;
-
-    union {
-
-#ifdef ENABLE_BACKEND_X11
-        window_x11_t *x11;
-#endif
-#ifdef ENABLE_BACKEND_WINDOWS
-        window_windows_t *windows;
-#endif
-
-    } windows;
 };
 
 window_t *create_window (backend_t *backend,

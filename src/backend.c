@@ -2,15 +2,22 @@
 
 #include <gosh/backend.h>
 
+#ifdef ENABLE_BACKEND_X11
+#include "backends/x11/backend.h"
+#endif
+
+#ifdef ENABLE_BACKEND_WINDOWS
+#include "backends/windows/backend.h"
+#endif
+
 backend_t *create_backend (backend_type_t type) {
 
     backend_t *backend;
 
     if (type == BACKEND_AUTO)
-#ifdef ENABLE_BACKEND_X11
+#if defined (ENABLE_BACKEND_X11)
         type = BACKEND_X11;
-#endif
-#ifdef ENABLE_BACKEND_WINDOWS
+#elif defined (ENABLE_BACKEND_WINDOWS)
         type = BACKEND_WINDOWS;
 #endif
     /* TODO: or allow environment variable overrides
@@ -24,13 +31,13 @@ backend_t *create_backend (backend_type_t type) {
 
 #ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
-            backend->backends.x11 = create_backend_x11 (backend);
+            backend->backend = create_backend_x11 (backend);
             break;
 
 #endif
 #ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
-            backend->backends.windows = create_backend_windows (backend);
+            backend->backend = create_backend_windows (backend);
             break;
 
 #endif
@@ -47,13 +54,13 @@ void destroy_backend (backend_t *backend) {
 
 #ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
-            destroy_backend_x11 (backend->backends.x11);
+            destroy_backend_x11 (backend->backend);
             break;
 
 #endif
 #ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
-            destroy_backend_windows (backend->backends.windows);
+            destroy_backend_windows (backend->backend);
             break;
 
 #endif
@@ -70,12 +77,12 @@ int backend_pending (backend_t *backend) {
 
 #ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
-            return backend_x11_pending (backend->backends.x11);
+            return backend_x11_pending (backend->backend);
 
 #endif
 #ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
-            return backend_windows_pending (backend->backends.windows);
+            return backend_windows_pending (backend->backend);
 
 #endif
         default:
@@ -89,13 +96,13 @@ void backend_process (backend_t *backend) {
 
 #ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
-            backend_x11_process (backend->backends.x11);
+            backend_x11_process (backend->backend);
             break;
 
 #endif
 #ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
-            backend_windows_process (backend->backends.windows);
+            backend_windows_process (backend->backend);
             break;
 
 #endif

@@ -4,6 +4,14 @@
 
 #include <gosh/window.h>
 
+#ifdef ENABLE_BACKEND_X11
+#include "backends/x11/window.h"
+#endif
+
+#ifdef ENABLE_BACKEND_WINDOWS
+#include "backends/windows/window.h"
+#endif
+
 window_t *create_window (backend_t *backend,
                          region_t region,
                          char *title,
@@ -20,7 +28,7 @@ window_t *create_window (backend_t *backend,
 
 #ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
-            window->windows.x11 = create_window_x11 (backend->backends.x11,
+            window->windows.x11 = create_window_x11 (backend->backend,
                                                      window,
                                                      region,
                                                      title);
@@ -29,7 +37,7 @@ window_t *create_window (backend_t *backend,
 #endif
 #ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
-            window->windows.windows = create_window_windows (backend->backends.windows,
+            window->windows.windows = create_window_windows (backend->backend,
                                                              window,
                                                              region,
                                                              title);
@@ -49,13 +57,13 @@ void destroy_window (window_t *window) {
 
 #ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
-            destroy_window_x11 (window->windows.x11);
+            destroy_window_x11 (window->window);
             break;
 
 #endif
 #ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
-            destroy_window_windows (window->windows.windows);
+            destroy_window_windows (window->window);
             break;
 
 #endif
@@ -72,13 +80,13 @@ void close_window (window_t *window) {
 
 #ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
-            close_window_x11 (window->windows.x11);
+            close_window_x11 (window->window);
             break;
 
 #endif
 #ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
-            close_window_windows (window->windows.windows);
+            close_window_windows (window->window);
             break;
 
 #endif
@@ -106,13 +114,13 @@ void update_window_region (window_t *window, region_t region) {
 
 #ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
-            update_window_x11_region (window->windows.x11, region);
+            update_window_x11_region (window->window, region);
             break;
 
 #endif
 #ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
-            update_window_windows_region (window->windows.windows, region);
+            update_window_windows_region (window->window, region);
             break;
 
 #endif
@@ -190,12 +198,12 @@ void *pack_color (window_t *window, rgba_color_t color) {
 
 #ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
-            return pack_color_x11 (window->windows.x11, color);
+            return pack_color_x11 (window->window, color);
 
 #endif
 #ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
-            return pack_color_windows (window->windows.windows, color);
+            return pack_color_windows (window->window, color);
 
 #endif
         default:
@@ -209,12 +217,12 @@ rgba_color_t unpack_color (window_t *window, void *packed_color) {
 
 #ifdef ENABLE_BACKEND_X11
         case BACKEND_X11:
-            return unpack_color_x11 (window->windows.x11, packed_color);
+            return unpack_color_x11 (window->window, packed_color);
 
 #endif
 #ifdef ENABLE_BACKEND_WINDOWS
         case BACKEND_WINDOWS:
-            return unpack_color_windows (window->windows.windows, packed_color);
+            return unpack_color_windows (window->window, packed_color);
 
 #endif
         default:
