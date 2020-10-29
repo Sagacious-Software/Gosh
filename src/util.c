@@ -18,6 +18,11 @@ region_t make_region (int x, int y, int width, int height) {
     return region;
 }
 
+region_t make_region_bounds (int left, int top, int right, int bottom) {
+
+    return make_region (left, top, right - left, bottom - top);
+}
+
 rgba_color_t make_color (double red, double green, double blue, double alpha) {
 
     rgba_color_t color;

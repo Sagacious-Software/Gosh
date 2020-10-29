@@ -26,12 +26,14 @@ typedef struct rgba_color_t {
     double green;
     double blue;
     double alpha;
+
 } rgba_color_t;
 
 #define NULL_COLOR (make_color (0, 0, 0, 0))
 
 point_t make_point (int x, int y);
 region_t make_region (int x, int y, int width, int height);
+region_t make_region_bounds (int left, int top, int right, int bottom);
 rgba_color_t make_color (double red, double green, double blue, double alpha);
 
 bool point_equals (point_t a, point_t b);

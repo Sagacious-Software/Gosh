@@ -4,7 +4,8 @@ project('gosh',
         license : 'MIT')
 
 # TODO: figure out best way to have default warnings / errors
-cargs = ['-Wall', '-Werror']
+cargs = ['-Wall']#, '-Werror']
+largs = []
 
 deps = []
 
@@ -45,6 +46,7 @@ endif
 if get_option('enable_backend_windows').enabled()
     src_lib += src_backend_windows
     cargs += ['-DENABLE_BACKEND_WINDOWS']
+    largs += ['-mwindows']
 endif
 
 install_headers(headers, subdir : 'gosh')
@@ -54,6 +56,7 @@ lib = library('gosh',
                include_directories : inc_dir,
                dependencies : deps,
                c_args : cargs,
+               link_args : largs,
                install : true)
 
 demo1 = executable('gosh_demo1',
@@ -62,6 +65,7 @@ demo1 = executable('gosh_demo1',
                    include_directories : inc_dir,
                    dependencies : deps,
                    c_args : cargs,
+                   link_args : largs,
                    install : true)
 
 test('demo1', demo1)

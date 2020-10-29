@@ -13,8 +13,8 @@ Note that if you are on Unix and would like to use the Windows backend you have 
 Then build the library and the demos by running this in the root of the repository:
 
 ```bash
-meson build --buildtype release
-cd build
+meson builddir --buildtype release
+cd builddir
 meson compile
 ```
 
@@ -27,8 +27,8 @@ If you are on Unix and have Wine installed you can enable the Windows backend op
 Then do this back in the root of the repository if you would like to do a Wine build:
 
 ```bash
-CC=winegcc meson build --buildtype release
-cd build
+CC=winegcc meson buildwine --buildtype release
+cd buildwine
 meson compile
 ```
 
@@ -36,7 +36,7 @@ Again, you can change `release` to `debug` if you like!
 
 ## Try the demos
 
-Try the demos by running this:
+Try the demos by running this in the build directory:
 
 ```bash
 meson test
@@ -44,7 +44,7 @@ meson test
 
 ## Install
 
-And when you are ready to install:
+And when you are ready to install do this in the build directory:
 
 ```bash
 meson install
