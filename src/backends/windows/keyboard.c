@@ -1,147 +1,271 @@
 #include "keyboard.h"
 
-unsigned int KEYBOARD_KEYS_WINDOWS[] = {
-
-    /* TODO:
-     * this was just copied from x11 stuff
-     * so lik euh
-     * yeah
-     * nothing about it is accurate */
+WPARAM KEYBOARD_KEYS_WINDOWS[] = {
     
-    KEYBOARD_KEY_UNKNOWN,       /* 0   */
-    KEYBOARD_KEY_UNKNOWN,       /* 1   */
-    KEYBOARD_KEY_UNKNOWN,       /* 2   */
-    KEYBOARD_KEY_UNKNOWN,       /* 3   */
-    KEYBOARD_KEY_UNKNOWN,       /* 4   */
-    KEYBOARD_KEY_UNKNOWN,       /* 5   */
-    KEYBOARD_KEY_UNKNOWN,       /* 6   */
-    KEYBOARD_KEY_UNKNOWN,       /* 7   */
-    KEYBOARD_KEY_UNKNOWN,       /* 8   */
-    KEYBOARD_KEY_CAPS_LOCK,     /* 9   */
-    KEYBOARD_KEY_UNKNOWN,       /* 10  */
-    KEYBOARD_KEY_UNKNOWN,       /* 11  */
-    KEYBOARD_KEY_UNKNOWN,       /* 12  */
-    KEYBOARD_KEY_UNKNOWN,       /* 13  */
-    KEYBOARD_KEY_UNKNOWN,       /* 14  */
-    KEYBOARD_KEY_UNKNOWN,       /* 15  */
-    KEYBOARD_KEY_UNKNOWN,       /* 16  */
-    KEYBOARD_KEY_UNKNOWN,       /* 17  */
-    KEYBOARD_KEY_UNKNOWN,       /* 18  */
-    KEYBOARD_KEY_UNKNOWN,       /* 19  */
-    KEYBOARD_KEY_UNKNOWN,       /* 20  */
-    KEYBOARD_KEY_UNKNOWN,       /* 21  */
-    KEYBOARD_KEY_BACKSPACE,     /* 22  */
-    KEYBOARD_KEY_UNKNOWN,       /* 23  */
-    KEYBOARD_KEY_Q,             /* 24  */
-    KEYBOARD_KEY_UNKNOWN,       /* 25  */
-    KEYBOARD_KEY_UNKNOWN,       /* 26  */
-    KEYBOARD_KEY_UNKNOWN,       /* 27  */
-    KEYBOARD_KEY_UNKNOWN,       /* 28  */
-    KEYBOARD_KEY_UNKNOWN,       /* 29  */
-    KEYBOARD_KEY_UNKNOWN,       /* 30  */
-    KEYBOARD_KEY_UNKNOWN,       /* 31  */
-    KEYBOARD_KEY_UNKNOWN,       /* 32  */
-    KEYBOARD_KEY_UNKNOWN,       /* 33  */
-    KEYBOARD_KEY_UNKNOWN,       /* 34  */
-    KEYBOARD_KEY_UNKNOWN,       /* 35  */
-    KEYBOARD_KEY_UNKNOWN,       /* 36  */
-    KEYBOARD_KEY_LEFT_CONTROL,  /* 37  */
-    KEYBOARD_KEY_UNKNOWN,       /* 38  */
-    KEYBOARD_KEY_UNKNOWN,       /* 39  */
-    KEYBOARD_KEY_UNKNOWN,       /* 40  */
-    KEYBOARD_KEY_UNKNOWN,       /* 41  */
-    KEYBOARD_KEY_UNKNOWN,       /* 42  */
-    KEYBOARD_KEY_UNKNOWN,       /* 43  */
-    KEYBOARD_KEY_UNKNOWN,       /* 44  */
-    KEYBOARD_KEY_UNKNOWN,       /* 45  */
-    KEYBOARD_KEY_UNKNOWN,       /* 46  */
-    KEYBOARD_KEY_UNKNOWN,       /* 47  */
-    KEYBOARD_KEY_UNKNOWN,       /* 48  */
-    KEYBOARD_KEY_UNKNOWN,       /* 49  */
-    KEYBOARD_KEY_LEFT_SHIFT,    /* 50  */
-    KEYBOARD_KEY_UNKNOWN,       /* 51  */
-    KEYBOARD_KEY_UNKNOWN,       /* 52  */
-    KEYBOARD_KEY_UNKNOWN,       /* 53  */
-    KEYBOARD_KEY_UNKNOWN,       /* 54  */
-    KEYBOARD_KEY_UNKNOWN,       /* 55  */
-    KEYBOARD_KEY_UNKNOWN,       /* 56  */
-    KEYBOARD_KEY_UNKNOWN,       /* 57  */
-    KEYBOARD_KEY_UNKNOWN,       /* 58  */
-    KEYBOARD_KEY_UNKNOWN,       /* 59  */
-    KEYBOARD_KEY_UNKNOWN,       /* 60  */
-    KEYBOARD_KEY_UNKNOWN,       /* 61  */
-    KEYBOARD_KEY_RIGHT_SHIFT,   /* 62  */
-    KEYBOARD_KEY_UNKNOWN,       /* 63  */
-    KEYBOARD_KEY_LEFT_ALT,      /* 64  */
-    KEYBOARD_KEY_UNKNOWN,       /* 65  */
-    KEYBOARD_KEY_ESCAPE,        /* 66  */
-    KEYBOARD_KEY_F1,            /* 67  */
-    KEYBOARD_KEY_F2,            /* 68  */
-    KEYBOARD_KEY_F3,            /* 69  */
-    KEYBOARD_KEY_F4,            /* 70  */
-    KEYBOARD_KEY_F5,            /* 71  */
-    KEYBOARD_KEY_F6,            /* 72  */
-    KEYBOARD_KEY_F7,            /* 73  */
-    KEYBOARD_KEY_F8,            /* 74  */
-    KEYBOARD_KEY_F9,            /* 75  */
-    KEYBOARD_KEY_F10,           /* 76  */
-    KEYBOARD_KEY_UNKNOWN,       /* 77  */
-    KEYBOARD_KEY_UNKNOWN,       /* 78  */
-    KEYBOARD_KEY_UNKNOWN,       /* 79  */
-    KEYBOARD_KEY_UNKNOWN,       /* 80  */
-    KEYBOARD_KEY_UNKNOWN,       /* 81  */
-    KEYBOARD_KEY_UNKNOWN,       /* 82  */
-    KEYBOARD_KEY_UNKNOWN,       /* 83  */
-    KEYBOARD_KEY_UNKNOWN,       /* 84  */
-    KEYBOARD_KEY_UNKNOWN,       /* 85  */
-    KEYBOARD_KEY_UNKNOWN,       /* 86  */
-    KEYBOARD_KEY_UNKNOWN,       /* 87  */
-    KEYBOARD_KEY_UNKNOWN,       /* 88  */
-    KEYBOARD_KEY_UNKNOWN,       /* 89  */
-    KEYBOARD_KEY_UNKNOWN,       /* 90  */
-    KEYBOARD_KEY_UNKNOWN,       /* 91  */
-    KEYBOARD_KEY_UNKNOWN,       /* 92  */
-    KEYBOARD_KEY_UNKNOWN,       /* 93  */
-    KEYBOARD_KEY_UNKNOWN,       /* 94  */
-    KEYBOARD_KEY_F11,           /* 95  */
-    KEYBOARD_KEY_F12,           /* 96  */
-    KEYBOARD_KEY_UNKNOWN,       /* 97  */
-    KEYBOARD_KEY_UNKNOWN,       /* 98  */
-    KEYBOARD_KEY_UNKNOWN,       /* 99  */
-    KEYBOARD_KEY_UNKNOWN,       /* 100 */
-    KEYBOARD_KEY_UNKNOWN,       /* 101 */
-    KEYBOARD_KEY_UNKNOWN,       /* 102 */
-    KEYBOARD_KEY_UNKNOWN,       /* 103 */
-    KEYBOARD_KEY_UNKNOWN,       /* 104 */
-    KEYBOARD_KEY_RIGHT_CONTROL, /* 105 */
-    KEYBOARD_KEY_UNKNOWN,       /* 106 */
-    KEYBOARD_KEY_UNKNOWN,       /* 107 */
-    KEYBOARD_KEY_RIGHT_ALT,     /* 108 */
-    KEYBOARD_KEY_UNKNOWN,       /* 109 */
-    KEYBOARD_KEY_HOME,          /* 110 */
-    KEYBOARD_KEY_UNKNOWN,       /* 111 */
-    KEYBOARD_KEY_PAGE_UP,       /* 112 */
-    KEYBOARD_KEY_UNKNOWN,       /* 113 */
-    KEYBOARD_KEY_UNKNOWN,       /* 114 */
-    KEYBOARD_KEY_END,           /* 115 */
-    KEYBOARD_KEY_UNKNOWN,       /* 116 */
-    KEYBOARD_KEY_PAGE_DOWN,     /* 117 */
-    KEYBOARD_KEY_INSERT,        /* 118 */
-    KEYBOARD_KEY_DELETE,        /* 119 */
-    KEYBOARD_KEY_UNKNOWN,       /* 120 */
-    KEYBOARD_KEY_UNKNOWN,       /* 121 */
-    KEYBOARD_KEY_UNKNOWN,       /* 122 */
-    KEYBOARD_KEY_UNKNOWN,       /* 123 */
-    KEYBOARD_KEY_UNKNOWN,       /* 124 */
-    KEYBOARD_KEY_UNKNOWN,       /* 125 */
-    KEYBOARD_KEY_UNKNOWN,       /* 126 */
-    KEYBOARD_KEY_PAUSE,         /* 127 */
+    /* TODO: complete this table according to this:
+     * https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes */
+
+    KEYBOARD_KEY_UNKNOWN,   /* 0   | 0x0  */
+    KEYBOARD_KEY_UNKNOWN,   /* 1   | 0x1  */
+    KEYBOARD_KEY_UNKNOWN,   /* 2   | 0x2  */
+    KEYBOARD_KEY_UNKNOWN,   /* 3   | 0x3  */
+    KEYBOARD_KEY_UNKNOWN,   /* 4   | 0x4  */
+    KEYBOARD_KEY_UNKNOWN,   /* 5   | 0x5  */
+    KEYBOARD_KEY_UNKNOWN,   /* 6   | 0x6  */
+    KEYBOARD_KEY_UNKNOWN,   /* 7   | 0x7  */
+    KEYBOARD_KEY_BACKSPACE, /* 8   | 0x8  */
+    KEYBOARD_KEY_TAB,       /* 9   | 0x9  */
+    KEYBOARD_KEY_UNKNOWN,   /* 10  | 0xa  */
+    KEYBOARD_KEY_UNKNOWN,   /* 11  | 0xb  */
+    KEYBOARD_KEY_UNKNOWN,   /* 12  | 0xc  */
+    KEYBOARD_KEY_UNKNOWN,   /* 13  | 0xd  */
+    KEYBOARD_KEY_UNKNOWN,   /* 14  | 0xe  */
+    KEYBOARD_KEY_UNKNOWN,   /* 15  | 0xf  */
+    KEYBOARD_KEY_UNKNOWN,   /* 16  | 0x10 */
+    KEYBOARD_KEY_UNKNOWN,   /* 17  | 0x11 */
+    KEYBOARD_KEY_UNKNOWN,   /* 18  | 0x12 */
+    KEYBOARD_KEY_PAUSE,     /* 19  | 0x13 */
+    KEYBOARD_KEY_CAPS_LOCK, /* 20  | 0x14 */
+    KEYBOARD_KEY_UNKNOWN,   /* 21  | 0x15 */
+    KEYBOARD_KEY_UNKNOWN,   /* 22  | 0x16 */
+    KEYBOARD_KEY_UNKNOWN,   /* 23  | 0x17 */
+    KEYBOARD_KEY_UNKNOWN,   /* 24  | 0x18 */
+    KEYBOARD_KEY_UNKNOWN,   /* 25  | 0x19 */
+    KEYBOARD_KEY_UNKNOWN,   /* 26  | 0x1a */
+    KEYBOARD_KEY_ESCAPE,    /* 27  | 0x1b */
+    KEYBOARD_KEY_UNKNOWN,   /* 28  | 0x1c */
+    KEYBOARD_KEY_UNKNOWN,   /* 29  | 0x1d */
+    KEYBOARD_KEY_UNKNOWN,   /* 30  | 0x1e */
+    KEYBOARD_KEY_UNKNOWN,   /* 31  | 0x1f */
+    KEYBOARD_KEY_SPACE,     /* 32  | 0x20 */
+    KEYBOARD_KEY_UNKNOWN,   /* 33  | 0x21 */
+    KEYBOARD_KEY_UNKNOWN,   /* 34  | 0x22 */
+    KEYBOARD_KEY_UNKNOWN,   /* 35  | 0x23 */
+    KEYBOARD_KEY_UNKNOWN,   /* 36  | 0x24 */
+    KEYBOARD_KEY_UNKNOWN,   /* 37  | 0x25 */
+    KEYBOARD_KEY_UNKNOWN,   /* 38  | 0x26 */
+    KEYBOARD_KEY_UNKNOWN,   /* 39  | 0x27 */
+    KEYBOARD_KEY_UNKNOWN,   /* 40  | 0x28 */
+    KEYBOARD_KEY_UNKNOWN,   /* 41  | 0x29 */
+    KEYBOARD_KEY_UNKNOWN,   /* 42  | 0x2a */
+    KEYBOARD_KEY_UNKNOWN,   /* 43  | 0x2b */
+    KEYBOARD_KEY_UNKNOWN,   /* 44  | 0x2c */
+    KEYBOARD_KEY_UNKNOWN,   /* 45  | 0x2d */
+    KEYBOARD_KEY_UNKNOWN,   /* 46  | 0x2e */
+    KEYBOARD_KEY_UNKNOWN,   /* 47  | 0x2f */
+    KEYBOARD_KEY_UNKNOWN,   /* 48  | 0x30 */
+    KEYBOARD_KEY_UNKNOWN,   /* 49  | 0x31 */
+    KEYBOARD_KEY_UNKNOWN,   /* 50  | 0x32 */
+    KEYBOARD_KEY_UNKNOWN,   /* 51  | 0x33 */
+    KEYBOARD_KEY_UNKNOWN,   /* 52  | 0x34 */
+    KEYBOARD_KEY_UNKNOWN,   /* 53  | 0x35 */
+    KEYBOARD_KEY_UNKNOWN,   /* 54  | 0x36 */
+    KEYBOARD_KEY_UNKNOWN,   /* 55  | 0x37 */
+    KEYBOARD_KEY_UNKNOWN,   /* 56  | 0x38 */
+    KEYBOARD_KEY_UNKNOWN,   /* 57  | 0x39 */
+    KEYBOARD_KEY_UNKNOWN,   /* 58  | 0x3a */
+    KEYBOARD_KEY_UNKNOWN,   /* 59  | 0x3b */
+    KEYBOARD_KEY_UNKNOWN,   /* 60  | 0x3c */
+    KEYBOARD_KEY_UNKNOWN,   /* 61  | 0x3d */
+    KEYBOARD_KEY_UNKNOWN,   /* 62  | 0x3e */
+    KEYBOARD_KEY_UNKNOWN,   /* 63  | 0x3f */
+    KEYBOARD_KEY_UNKNOWN,   /* 64  | 0x40 */
+    KEYBOARD_KEY_UNKNOWN,   /* 65  | 0x41 */
+    KEYBOARD_KEY_UNKNOWN,   /* 66  | 0x42 */
+    KEYBOARD_KEY_UNKNOWN,   /* 67  | 0x43 */
+    KEYBOARD_KEY_UNKNOWN,   /* 68  | 0x44 */
+    KEYBOARD_KEY_UNKNOWN,   /* 69  | 0x45 */
+    KEYBOARD_KEY_UNKNOWN,   /* 70  | 0x46 */
+    KEYBOARD_KEY_UNKNOWN,   /* 71  | 0x47 */
+    KEYBOARD_KEY_UNKNOWN,   /* 72  | 0x48 */
+    KEYBOARD_KEY_UNKNOWN,   /* 73  | 0x49 */
+    KEYBOARD_KEY_UNKNOWN,   /* 74  | 0x4a */
+    KEYBOARD_KEY_UNKNOWN,   /* 75  | 0x4b */
+    KEYBOARD_KEY_UNKNOWN,   /* 76  | 0x4c */
+    KEYBOARD_KEY_UNKNOWN,   /* 77  | 0x4d */
+    KEYBOARD_KEY_UNKNOWN,   /* 78  | 0x4e */
+    KEYBOARD_KEY_UNKNOWN,   /* 79  | 0x4f */
+    KEYBOARD_KEY_UNKNOWN,   /* 80  | 0x50 */
+    KEYBOARD_KEY_Q,         /* 81  | 0x51 */
+    KEYBOARD_KEY_UNKNOWN,   /* 82  | 0x52 */
+    KEYBOARD_KEY_UNKNOWN,   /* 83  | 0x53 */
+    KEYBOARD_KEY_UNKNOWN,   /* 84  | 0x54 */
+    KEYBOARD_KEY_UNKNOWN,   /* 85  | 0x55 */
+    KEYBOARD_KEY_UNKNOWN,   /* 86  | 0x56 */
+    KEYBOARD_KEY_UNKNOWN,   /* 87  | 0x57 */
+    KEYBOARD_KEY_UNKNOWN,   /* 88  | 0x58 */
+    KEYBOARD_KEY_UNKNOWN,   /* 89  | 0x59 */
+    KEYBOARD_KEY_UNKNOWN,   /* 90  | 0x5a */
+    KEYBOARD_KEY_UNKNOWN,   /* 91  | 0x5b */
+    KEYBOARD_KEY_UNKNOWN,   /* 92  | 0x5c */
+    KEYBOARD_KEY_UNKNOWN,   /* 93  | 0x5d */
+    KEYBOARD_KEY_UNKNOWN,   /* 94  | 0x5e */
+    KEYBOARD_KEY_UNKNOWN,   /* 95  | 0x5f */
+    KEYBOARD_KEY_UNKNOWN,   /* 96  | 0x60 */
+    KEYBOARD_KEY_UNKNOWN,   /* 97  | 0x61 */
+    KEYBOARD_KEY_UNKNOWN,   /* 98  | 0x62 */
+    KEYBOARD_KEY_UNKNOWN,   /* 99  | 0x63 */
+    KEYBOARD_KEY_UNKNOWN,   /* 100 | 0x64 */
+    KEYBOARD_KEY_UNKNOWN,   /* 101 | 0x65 */
+    KEYBOARD_KEY_UNKNOWN,   /* 102 | 0x66 */
+    KEYBOARD_KEY_UNKNOWN,   /* 103 | 0x67 */
+    KEYBOARD_KEY_UNKNOWN,   /* 104 | 0x68 */
+    KEYBOARD_KEY_UNKNOWN,   /* 105 | 0x69 */
+    KEYBOARD_KEY_UNKNOWN,   /* 106 | 0x6a */
+    KEYBOARD_KEY_UNKNOWN,   /* 107 | 0x6b */
+    KEYBOARD_KEY_UNKNOWN,   /* 108 | 0x6c */
+    KEYBOARD_KEY_UNKNOWN,   /* 109 | 0x6d */
+    KEYBOARD_KEY_UNKNOWN,   /* 110 | 0x6e */
+    KEYBOARD_KEY_UNKNOWN,   /* 111 | 0x6f */
+    KEYBOARD_KEY_UNKNOWN,   /* 112 | 0x70 */
+    KEYBOARD_KEY_UNKNOWN,   /* 113 | 0x71 */
+    KEYBOARD_KEY_UNKNOWN,   /* 114 | 0x72 */
+    KEYBOARD_KEY_UNKNOWN,   /* 115 | 0x73 */
+    KEYBOARD_KEY_UNKNOWN,   /* 116 | 0x74 */
+    KEYBOARD_KEY_UNKNOWN,   /* 117 | 0x75 */
+    KEYBOARD_KEY_UNKNOWN,   /* 118 | 0x76 */
+    KEYBOARD_KEY_UNKNOWN,   /* 119 | 0x77 */
+    KEYBOARD_KEY_UNKNOWN,   /* 120 | 0x78 */
+    KEYBOARD_KEY_UNKNOWN,   /* 121 | 0x79 */
+    KEYBOARD_KEY_UNKNOWN,   /* 122 | 0x7a */
+    KEYBOARD_KEY_UNKNOWN,   /* 123 | 0x7b */
+    KEYBOARD_KEY_UNKNOWN,   /* 124 | 0x7c */
+    KEYBOARD_KEY_UNKNOWN,   /* 125 | 0x7d */
+    KEYBOARD_KEY_UNKNOWN,   /* 126 | 0x7e */
+    KEYBOARD_KEY_UNKNOWN,   /* 127 | 0x7f */
+    KEYBOARD_KEY_UNKNOWN,   /* 128 | 0x80 */
+    KEYBOARD_KEY_UNKNOWN,   /* 129 | 0x81 */
+    KEYBOARD_KEY_UNKNOWN,   /* 130 | 0x82 */
+    KEYBOARD_KEY_UNKNOWN,   /* 131 | 0x83 */
+    KEYBOARD_KEY_UNKNOWN,   /* 132 | 0x84 */
+    KEYBOARD_KEY_UNKNOWN,   /* 133 | 0x85 */
+    KEYBOARD_KEY_UNKNOWN,   /* 134 | 0x86 */
+    KEYBOARD_KEY_UNKNOWN,   /* 135 | 0x87 */
+    KEYBOARD_KEY_UNKNOWN,   /* 136 | 0x88 */
+    KEYBOARD_KEY_UNKNOWN,   /* 137 | 0x89 */
+    KEYBOARD_KEY_UNKNOWN,   /* 138 | 0x8a */
+    KEYBOARD_KEY_UNKNOWN,   /* 139 | 0x8b */
+    KEYBOARD_KEY_UNKNOWN,   /* 140 | 0x8c */
+    KEYBOARD_KEY_UNKNOWN,   /* 141 | 0x8d */
+    KEYBOARD_KEY_UNKNOWN,   /* 142 | 0x8e */
+    KEYBOARD_KEY_UNKNOWN,   /* 143 | 0x8f */
+    KEYBOARD_KEY_UNKNOWN,   /* 144 | 0x90 */
+    KEYBOARD_KEY_UNKNOWN,   /* 145 | 0x91 */
+    KEYBOARD_KEY_UNKNOWN,   /* 146 | 0x92 */
+    KEYBOARD_KEY_UNKNOWN,   /* 147 | 0x93 */
+    KEYBOARD_KEY_UNKNOWN,   /* 148 | 0x94 */
+    KEYBOARD_KEY_UNKNOWN,   /* 149 | 0x95 */
+    KEYBOARD_KEY_UNKNOWN,   /* 150 | 0x96 */
+    KEYBOARD_KEY_UNKNOWN,   /* 151 | 0x97 */
+    KEYBOARD_KEY_UNKNOWN,   /* 152 | 0x98 */
+    KEYBOARD_KEY_UNKNOWN,   /* 153 | 0x99 */
+    KEYBOARD_KEY_UNKNOWN,   /* 154 | 0x9a */
+    KEYBOARD_KEY_UNKNOWN,   /* 155 | 0x9b */
+    KEYBOARD_KEY_UNKNOWN,   /* 156 | 0x9c */
+    KEYBOARD_KEY_UNKNOWN,   /* 157 | 0x9d */
+    KEYBOARD_KEY_UNKNOWN,   /* 158 | 0x9e */
+    KEYBOARD_KEY_UNKNOWN,   /* 159 | 0x9f */
+    KEYBOARD_KEY_UNKNOWN,   /* 160 | 0xa0 */
+    KEYBOARD_KEY_UNKNOWN,   /* 161 | 0xa1 */
+    KEYBOARD_KEY_UNKNOWN,   /* 162 | 0xa2 */
+    KEYBOARD_KEY_UNKNOWN,   /* 163 | 0xa3 */
+    KEYBOARD_KEY_UNKNOWN,   /* 164 | 0xa4 */
+    KEYBOARD_KEY_UNKNOWN,   /* 165 | 0xa5 */
+    KEYBOARD_KEY_UNKNOWN,   /* 166 | 0xa6 */
+    KEYBOARD_KEY_UNKNOWN,   /* 167 | 0xa7 */
+    KEYBOARD_KEY_UNKNOWN,   /* 168 | 0xa8 */
+    KEYBOARD_KEY_UNKNOWN,   /* 169 | 0xa9 */
+    KEYBOARD_KEY_UNKNOWN,   /* 170 | 0xaa */
+    KEYBOARD_KEY_UNKNOWN,   /* 171 | 0xab */
+    KEYBOARD_KEY_UNKNOWN,   /* 172 | 0xac */
+    KEYBOARD_KEY_UNKNOWN,   /* 173 | 0xad */
+    KEYBOARD_KEY_UNKNOWN,   /* 174 | 0xae */
+    KEYBOARD_KEY_UNKNOWN,   /* 175 | 0xaf */
+    KEYBOARD_KEY_UNKNOWN,   /* 176 | 0xb0 */
+    KEYBOARD_KEY_UNKNOWN,   /* 177 | 0xb1 */
+    KEYBOARD_KEY_UNKNOWN,   /* 178 | 0xb2 */
+    KEYBOARD_KEY_UNKNOWN,   /* 179 | 0xb3 */
+    KEYBOARD_KEY_UNKNOWN,   /* 180 | 0xb4 */
+    KEYBOARD_KEY_UNKNOWN,   /* 181 | 0xb5 */
+    KEYBOARD_KEY_UNKNOWN,   /* 182 | 0xb6 */
+    KEYBOARD_KEY_UNKNOWN,   /* 183 | 0xb7 */
+    KEYBOARD_KEY_UNKNOWN,   /* 184 | 0xb8 */
+    KEYBOARD_KEY_UNKNOWN,   /* 185 | 0xb9 */
+    KEYBOARD_KEY_UNKNOWN,   /* 186 | 0xba */
+    KEYBOARD_KEY_UNKNOWN,   /* 187 | 0xbb */
+    KEYBOARD_KEY_UNKNOWN,   /* 188 | 0xbc */
+    KEYBOARD_KEY_UNKNOWN,   /* 189 | 0xbd */
+    KEYBOARD_KEY_UNKNOWN,   /* 190 | 0xbe */
+    KEYBOARD_KEY_UNKNOWN,   /* 191 | 0xbf */
+    KEYBOARD_KEY_UNKNOWN,   /* 192 | 0xc0 */
+    KEYBOARD_KEY_UNKNOWN,   /* 193 | 0xc1 */
+    KEYBOARD_KEY_UNKNOWN,   /* 194 | 0xc2 */
+    KEYBOARD_KEY_UNKNOWN,   /* 195 | 0xc3 */
+    KEYBOARD_KEY_UNKNOWN,   /* 196 | 0xc4 */
+    KEYBOARD_KEY_UNKNOWN,   /* 197 | 0xc5 */
+    KEYBOARD_KEY_UNKNOWN,   /* 198 | 0xc6 */
+    KEYBOARD_KEY_UNKNOWN,   /* 199 | 0xc7 */
+    KEYBOARD_KEY_UNKNOWN,   /* 200 | 0xc8 */
+    KEYBOARD_KEY_UNKNOWN,   /* 201 | 0xc9 */
+    KEYBOARD_KEY_UNKNOWN,   /* 202 | 0xca */
+    KEYBOARD_KEY_UNKNOWN,   /* 203 | 0xcb */
+    KEYBOARD_KEY_UNKNOWN,   /* 204 | 0xcc */
+    KEYBOARD_KEY_UNKNOWN,   /* 205 | 0xcd */
+    KEYBOARD_KEY_UNKNOWN,   /* 206 | 0xce */
+    KEYBOARD_KEY_UNKNOWN,   /* 207 | 0xcf */
+    KEYBOARD_KEY_UNKNOWN,   /* 208 | 0xd0 */
+    KEYBOARD_KEY_UNKNOWN,   /* 209 | 0xd1 */
+    KEYBOARD_KEY_UNKNOWN,   /* 210 | 0xd2 */
+    KEYBOARD_KEY_UNKNOWN,   /* 211 | 0xd3 */
+    KEYBOARD_KEY_UNKNOWN,   /* 212 | 0xd4 */
+    KEYBOARD_KEY_UNKNOWN,   /* 213 | 0xd5 */
+    KEYBOARD_KEY_UNKNOWN,   /* 214 | 0xd6 */
+    KEYBOARD_KEY_UNKNOWN,   /* 215 | 0xd7 */
+    KEYBOARD_KEY_UNKNOWN,   /* 216 | 0xd8 */
+    KEYBOARD_KEY_UNKNOWN,   /* 217 | 0xd9 */
+    KEYBOARD_KEY_UNKNOWN,   /* 218 | 0xda */
+    KEYBOARD_KEY_UNKNOWN,   /* 219 | 0xdb */
+    KEYBOARD_KEY_UNKNOWN,   /* 220 | 0xdc */
+    KEYBOARD_KEY_UNKNOWN,   /* 221 | 0xdd */
+    KEYBOARD_KEY_UNKNOWN,   /* 222 | 0xde */
+    KEYBOARD_KEY_UNKNOWN,   /* 223 | 0xdf */
+    KEYBOARD_KEY_UNKNOWN,   /* 224 | 0xe0 */
+    KEYBOARD_KEY_UNKNOWN,   /* 225 | 0xe1 */
+    KEYBOARD_KEY_UNKNOWN,   /* 226 | 0xe2 */
+    KEYBOARD_KEY_UNKNOWN,   /* 227 | 0xe3 */
+    KEYBOARD_KEY_UNKNOWN,   /* 228 | 0xe4 */
+    KEYBOARD_KEY_UNKNOWN,   /* 229 | 0xe5 */
+    KEYBOARD_KEY_UNKNOWN,   /* 230 | 0xe6 */
+    KEYBOARD_KEY_UNKNOWN,   /* 231 | 0xe7 */
+    KEYBOARD_KEY_UNKNOWN,   /* 232 | 0xe8 */
+    KEYBOARD_KEY_UNKNOWN,   /* 233 | 0xe9 */
+    KEYBOARD_KEY_UNKNOWN,   /* 234 | 0xea */
+    KEYBOARD_KEY_UNKNOWN,   /* 235 | 0xeb */
+    KEYBOARD_KEY_UNKNOWN,   /* 236 | 0xec */
+    KEYBOARD_KEY_UNKNOWN,   /* 237 | 0xed */
+    KEYBOARD_KEY_UNKNOWN,   /* 238 | 0xee */
+    KEYBOARD_KEY_UNKNOWN,   /* 239 | 0xef */
+    KEYBOARD_KEY_UNKNOWN,   /* 240 | 0xf0 */
+    KEYBOARD_KEY_UNKNOWN,   /* 241 | 0xf1 */
+    KEYBOARD_KEY_UNKNOWN,   /* 242 | 0xf2 */
+    KEYBOARD_KEY_UNKNOWN,   /* 243 | 0xf3 */
+    KEYBOARD_KEY_UNKNOWN,   /* 244 | 0xf4 */
+    KEYBOARD_KEY_UNKNOWN,   /* 245 | 0xf5 */
+    KEYBOARD_KEY_UNKNOWN,   /* 246 | 0xf6 */
+    KEYBOARD_KEY_UNKNOWN,   /* 247 | 0xf7 */
+    KEYBOARD_KEY_UNKNOWN,   /* 248 | 0xf8 */
+    KEYBOARD_KEY_UNKNOWN,   /* 249 | 0xf9 */
+    KEYBOARD_KEY_UNKNOWN,   /* 250 | 0xfa */
+    KEYBOARD_KEY_UNKNOWN,   /* 251 | 0xfb */
+    KEYBOARD_KEY_UNKNOWN,   /* 252 | 0xfc */
+    KEYBOARD_KEY_UNKNOWN,   /* 253 | 0xfd */
+    KEYBOARD_KEY_UNKNOWN,   /* 254 | 0xfe */
+    KEYBOARD_KEY_UNKNOWN,   /* 255 | 0xff */
 };
 
-keyboard_key_t keyboard_key_windows (unsigned int keycode) {
+keyboard_key_t keyboard_key_windows (WPARAM keycode) {
 
-    /* TODO: the type */
-    if (keycode >= sizeof (KEYBOARD_KEYS_WINDOWS) / sizeof (unsigned int))
+    if (keycode >= sizeof (KEYBOARD_KEYS_WINDOWS) / sizeof (WPARAM))
         return KEYBOARD_KEY_UNKNOWN;
 
     return KEYBOARD_KEYS_WINDOWS[keycode];

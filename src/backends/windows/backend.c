@@ -104,6 +104,24 @@ LRESULT CALLBACK process_window (HWND handle,
             break;
         }
 
+        case WM_KEYDOWN:
+
+            /* TODO: text input */
+
+            window_event.type                      = EVENT_KEYBOARD;
+            window_event.events.keyboard.key       = keyboard_key_windows (word_parameter);
+            window_event.events.keyboard.key_state = KEYBOARD_KEY_PRESSED;
+
+            break;
+
+        case WM_KEYUP:
+
+            window_event.type                      = EVENT_KEYBOARD;
+            window_event.events.keyboard.key       = keyboard_key_windows (word_parameter);
+            window_event.events.keyboard.key_state = KEYBOARD_KEY_RELEASED;
+
+            break;
+
         case WM_NCCREATE:
             
             window = (window_windows_t *) ((CREATESTRUCT*) long_parameter)->lpCreateParams;
