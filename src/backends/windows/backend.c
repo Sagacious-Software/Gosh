@@ -1,3 +1,5 @@
+#include <windowsx.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -103,6 +105,58 @@ LRESULT CALLBACK process_window (HWND handle,
 
             break;
         }
+
+        /* TODO: mouse enter and exit window */
+
+        /* TODO: scroll horizontal and vertical and extended mouse buttons */
+
+        case WM_LBUTTONDOWN:
+            window_event.events.mouse.button = MOUSE_LEFT;
+            goto mouse_button_down;
+
+        case WM_MBUTTONDOWN:
+            window_event.events.mouse.button = MOUSE_MIDDLE;
+            goto mouse_button_down;
+
+        case WM_RBUTTONDOWN:
+            window_event.events.mouse.button = MOUSE_RIGHT;
+            goto mouse_button_down;
+
+        case WM_LBUTTONUP:
+            window_event.events.mouse.button = MOUSE_LEFT;
+            goto mouse_button_up;
+
+        case WM_MBUTTONUP:
+            window_event.events.mouse.button = MOUSE_MIDDLE;
+            goto mouse_button_up;
+
+        case WM_RBUTTONUP:
+            window_event.events.mouse.button = MOUSE_RIGHT;
+            goto mouse_button_up;
+
+mouse_button_down:
+            window_event.events.mouse.button_state = MOUSE_BUTTON_PRESSED;
+            goto mouse_button;
+
+mouse_button_up:
+            window_event.events.mouse.button_state = MOUSE_BUTTON_RELEASED;
+            goto mouse_button;
+
+mouse_button:
+            window_event.type                  = EVENT_MOUSE;
+            window_event.events.mouse.type     = EVENT_MOUSE_BUTTON;
+            window_event.events.mouse.position = window->window->mouse.position;
+
+            break;
+
+        case WM_MOUSEMOVE:
+
+            window_event.type                    = EVENT_MOUSE;
+            window_event.events.mouse.type       = EVENT_MOUSE_MOVE;
+            window_event.events.mouse.position.x = GET_X_LPARAM (long_parameter);
+            window_event.events.mouse.position.y = GET_Y_LPARAM (long_parameter);
+
+            break;
 
         case WM_KEYDOWN:
 
