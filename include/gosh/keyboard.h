@@ -1,8 +1,6 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
-#include "util.h"
-
 typedef enum keyboard_key_t {
 
     /* Function keys */
@@ -139,6 +137,8 @@ typedef struct keyboard_t {
 
     /* the states of the keyboard keys */
     keyboard_key_state_t keys[NUM_KEYBOARD_KEY];
+
+    /* TODO: key press stack */
 
 } keyboard_t;
 

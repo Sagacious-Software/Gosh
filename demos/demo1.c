@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <time.h>
 
+#include <kit/util.h>
 #include <gosh/window.h>
 
 double noise () {
@@ -26,15 +27,15 @@ typedef struct state_t {
 void draw (window_t *window, state_t *state) {
 
     int x, y, width, height;
-    rgba_color_t color;
+    color_t color;
 
     /* choose yellow for the first window */
     if (window == state->window_1)
-        color = make_color (1, 1, 0, 1);
+        color = make_color_rgb (1, 1, 0);
 
     /* and magenta for the second window */
     else
-        color = make_color (1, 0, 1, 1);
+        color = make_color_rgb (1, 0, 1);
 
     /* TODO: do a funky demo */
     width  = window->region.dimensions.x;
@@ -42,12 +43,11 @@ void draw (window_t *window, state_t *state) {
     for (y = 0; y < height; y++)
         for (x = 0; x < width; x++)
             set_pixel (window,
-                       make_point(x, y),
-                       multiply_colors (color,
-                                        make_color (noise (),
-                                                    noise (),
-                                                    noise (),
-                                                    1)));
+                       make_vec2 (x, y),
+                       multiply_color (color,
+                                       make_color_rgb (noise (),
+                                                       noise (),
+                                                       noise ())));
     
     /* update the contents of the window */
     update_window (window);
@@ -102,7 +102,7 @@ void callback (window_t *window, event_t event, void *data) {
         /* when the window is moved */
         case EVENT_MOVE:
 
-            printf ("Window was moved: (%d, %d)\n",
+            printf ("Window was moved: (%f, %f)\n",
                     event.events.move_resize.new_region.offset.x,
                     event.events.move_resize.new_region.offset.y);
 
@@ -111,7 +111,7 @@ void callback (window_t *window, event_t event, void *data) {
         /* when the window is resized */
         case EVENT_RESIZE:
 
-            printf ("Window was resized: (%d, %d)\n",
+            printf ("Window was resized: (%f, %f)\n",
                     event.events.move_resize.new_region.dimensions.x,
                     event.events.move_resize.new_region.dimensions.y);
 
@@ -124,7 +124,7 @@ void callback (window_t *window, event_t event, void *data) {
         case EVENT_MOUSE:
 
             /* the state of the mouse is tracked for us */
-            printf ("Mouse is at (%d, %d)\n", window->mouse.position.x,
+            printf ("Mouse is at (%f, %f)\n", window->mouse.position.x,
                                               window->mouse.position.y);
 
             /* but we are also informed of what just changed */
@@ -147,7 +147,7 @@ void callback (window_t *window, event_t event, void *data) {
                 /* when the mouse is moved in the window */
                 case EVENT_MOUSE_MOVE:
 
-                    printf ("Mouse was moved to (%d, %d)\n",
+                    printf ("Mouse was moved to (%f, %f)\n",
                             event.events.mouse.position.x,
                             event.events.mouse.position.y);
 
@@ -224,30 +224,18 @@ int main (int argc, char **argv) {
     }
 
     /* set the region on screen for the first window to appear */
-    region_1.offset.x     = 32;
-    region_1.offset.y     = 32;
-    region_1.dimensions.x = 480;
-    region_1.dimensions.y = 360;
+    region_1 = make_region (32, 32, 480, 360);
 
     /* set the region on screen for the second window to appear */
-    region_2.offset.x     = 544;
-    region_2.offset.y     = 32;
-    region_2.dimensions.x = 480;
-    region_2.dimensions.y = 360;
+    region_2 = make_region (544, 32, 480, 360);
 
     /* create the first window and set the callback */
-    if ((state.window_1 = create_window (state.backend, region_1, "Gosh Demo Window 1", callback, &state)) == NULL) {
-
-        fputs ("Failure to create Gosh window 1.\n", stderr);
-        return EXIT_FAILURE;
-    }
+    assert ((state.window_1 = create_window (state.backend, region_1, "Gosh Demo Window 1", callback, &state)),
+            "Failure to create first Gosh window.\n");
 
     /* create the second window and set the callback */
-    if ((state.window_2 = create_window (state.backend, region_2, "Gosh Demo Window 2", callback, &state)) == NULL) {
-
-        fputs ("Failure to create Gosh window 2.\n", stderr);
-        return EXIT_FAILURE;
-    }
+    assert ((state.window_2 = create_window (state.backend, region_2, "Gosh Demo Window 2", callback, &state)),
+            "Failure to create second Gosh window.\n");
 
     /* TODO
      * run an x11 and windows backend simultaneously

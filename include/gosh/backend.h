@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#include "util.h"
+typedef void idle_callback_t (void *data);
 
 typedef enum backend_type_t {
 

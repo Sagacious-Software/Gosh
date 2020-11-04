@@ -1,9 +1,11 @@
 #ifndef EVENT_H
 #define EVENT_H
 
+#include <kit/vector.h>
+#include <kit/region.h>
+
 #include "mouse.h"
 #include "keyboard.h"
-#include "util.h"
 
 typedef enum event_type_t {
 
@@ -59,7 +61,7 @@ typedef struct event_t {
 
             /* the current position of the mouse
              * this will be valid for all mouse events */
-            point_t position;
+            vec2_t position;
 
             /* which mouse button was changed */
             mouse_button_t button;

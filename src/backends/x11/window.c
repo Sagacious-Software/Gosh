@@ -4,6 +4,8 @@
 
 #include <X11/Xutil.h>
 
+#include <kit/region.h>
+
 #include "window.h"
 
 #include <gosh/window.h>
@@ -102,6 +104,12 @@ void destroy_window_x11_buffer (window_x11_t *window) {
         XDestroyImage (window->image);
         window->image = NULL;
     }
+
+    if (window->window->image.buffer) {
+
+        destroy_buffer_without_data (window->window->image.buffer);
+        window->window->image.buffer = NULL;
+    }
 }
 
 void destroy_window_x11 (window_x11_t *window) {
@@ -150,10 +158,8 @@ void init_window_x11_buffer (window_x11_t *window, region_t region) {
         destroy_window_x11_buffer (window);
 
     /* configure the buffer spec for the new image */
-    window->window->region = region;
-    window->window->bytes_per_pixel = 4;
-    window->window->pixels
-        = malloc (region.dimensions.x * region.dimensions.y * 4);
+    window->window->image = make_image (PIXEL_RGBA32, NULL);
+    window->window->image.buffer = create_buffer (region.dimensions, 4);
 
     /* create the new image matching the window's dimensions */
     window->image = XCreateImage (window->backend->display,
@@ -161,44 +167,9 @@ void init_window_x11_buffer (window_x11_t *window, region_t region) {
                                   depth,
                                   ZPixmap,
                                   0,
-                                  window->window->pixels,
+                                  window->window->image.buffer->data,
                                   region.dimensions.x,
                                   region.dimensions.y,
                                   32,
                                   0);
-}
-
-void *pack_color_x11 (window_x11_t *window, rgba_color_t color) {
-
-    /* TODO: make this actually generic */
-
-    uint8_t *pixel;
-    uint8_t red, green, blue, alpha;
-
-    red   = color.red   * 255;
-    green = color.green * 255;
-    blue  = color.blue  * 255;
-    alpha = color.alpha * 255;
-
-    pixel = malloc (4);
-    pixel[0] = blue;
-    pixel[1] = green;
-    pixel[2] = red;
-    pixel[3] = alpha;
-
-    return (void *) pixel;
-}
-
-rgba_color_t unpack_color_x11 (window_x11_t *window, void *packed_color) {
-
-    uint8_t *pixel;
-    rgba_color_t color;
-
-    pixel = (uint8_t *) packed_color;
-    color.blue  = pixel[0] / 255.0;
-    color.green = pixel[1] / 255.0;
-    color.red   = pixel[2] / 255.0;
-    color.alpha = pixel[3] / 255.0;
-
-    return color;
 }

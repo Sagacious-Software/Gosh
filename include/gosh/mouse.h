@@ -1,7 +1,7 @@
 #ifndef MOUSE_H
 #define MOUSE_H
 
-#include "util.h"
+#include <kit/vector.h>
 
 typedef enum mouse_button_t {
 
@@ -45,7 +45,7 @@ typedef enum mouse_button_state_t {
 typedef struct mouse_t {
 
     /* the position of the mouse in the window relative to the top left corner */
-    point_t position;
+    vec2_t position;
 
     /* the states of the mouse buttons */
     mouse_button_state_t buttons[NUM_MOUSE_BUTTON];

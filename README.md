@@ -6,6 +6,8 @@ It aims to be similar to SDL, but more lightweight, and designed around giving y
 
 ## Build
 
+You will need `meson` in order to build the library.
+
 First edit `meson_options.txt` and choose which backends you would like to compile support for.
 Set the ones you would like to enable to `enabled` and the rest of them to `disabled`.
 Note that if you are on Unix and would like to use the Windows backend you have to have Wine installed (see below).

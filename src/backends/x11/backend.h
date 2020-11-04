@@ -3,8 +3,6 @@
 
 #include <X11/Xlib.h>
 
-#include <gosh/util.h>
-
 #define MAX_WINDOWS 256
 
 struct window_x11_t;

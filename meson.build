@@ -1,12 +1,9 @@
-project('gosh',
-        'c',
-        version : '0.0.1',
-        license : 'MIT')
+project('gosh', 'c', version : '0.0.1', license : 'MIT')
 
 # TODO: figure out best way to have default warnings / errors
-cargs = ['-Wall']#, '-Werror']
-largs = []
-
+cargs = ['-Wall', '-Werror']
+# TODO: best way to link our libs? o-o
+largs = ['-lkit']
 deps = []
 
 inc_dir = include_directories('include')
@@ -15,14 +12,12 @@ headers = ['include/gosh/backend.h',
            'include/gosh/window.h',
            'include/gosh/mouse.h',
            'include/gosh/keyboard.h',
-           'include/gosh/event.h',
-           'include/gosh/util.h']
+           'include/gosh/event.h']
 
 src_lib = ['src/backend.c',
            'src/window.c',
            'src/mouse.c',
-           'src/keyboard.c',
-           'src/util.c']
+           'src/keyboard.c']
 
 src_backend_x11 = ['src/backends/x11/backend.c',
                    'src/backends/x11/window.c',
@@ -46,26 +41,27 @@ endif
 if get_option('enable_backend_windows').enabled()
     src_lib += src_backend_windows
     cargs += ['-DENABLE_BACKEND_WINDOWS']
+# TODO: best way to include this?
     largs += ['-mwindows']
 endif
 
 install_headers(headers, subdir : 'gosh')
 
 lib = library('gosh',
-               sources : src_lib,
+               sources             : src_lib,
                include_directories : inc_dir,
-               dependencies : deps,
-               c_args : cargs,
-               link_args : largs,
-               install : true)
+               dependencies        : deps,
+               c_args              : cargs,
+               link_args           : largs,
+               install             : true)
 
 demo1 = executable('gosh_demo1',
-                   sources : ['demos/demo1.c'] + src_lib,
-                   #link_with : lib,
+                   sources             : ['demos/demo1.c'],
+                   link_with           : lib,
                    include_directories : inc_dir,
-                   dependencies : deps,
-                   c_args : cargs,
-                   link_args : largs,
-                   install : true)
+                   dependencies        : deps,
+                   c_args              : cargs,
+                   link_args           : largs,
+                   install             : true)
 
 test('demo1', demo1)

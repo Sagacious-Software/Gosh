@@ -171,68 +171,15 @@ void handle_event (window_t *window, event_t event) {
     window->callback (window, event, window->data);
 }
 
-int window_buffer_size (window_t *window) {
+void set_pixel (window_t *window, vec2_t position, color_t color) {
 
-    return window->bytes_per_pixel *
-           window->region.dimensions.x *
-           window->region.dimensions.y;
+    pack_color (window->image.format,
+                get_buffer_address (window->image.buffer, position),
+                color);
 }
 
-void *pixel_address (window_t *window, point_t position) {
+color_t get_pixel (window_t *window, vec2_t position) {
 
-    size_t index = position.x + position.y * window->region.dimensions.x;
-    size_t offset = index * window->bytes_per_pixel;
-    return (void *) ((uint8_t *) window->pixels + offset);
-}
-
-void set_pixel (window_t *window, point_t position, rgba_color_t color) {
-
-    void *packed_color = pack_color (window, color);
-    memcpy (pixel_address (window, position),
-            packed_color,
-            window->bytes_per_pixel);
-    free (packed_color);
-}
-
-rgba_color_t get_pixel (window_t *window, point_t position) {
-
-    return unpack_color (window, pixel_address (window, position));
-}
-
-void *pack_color (window_t *window, rgba_color_t color) {
-
-    switch (window->backend->type) {
-
-#ifdef ENABLE_BACKEND_X11
-        case BACKEND_X11:
-            return pack_color_x11 (window->window, color);
-
-#endif
-#ifdef ENABLE_BACKEND_WINDOWS
-        case BACKEND_WINDOWS:
-            return pack_color_windows (window->window, color);
-
-#endif
-        default:
-            return NULL;
-    }
-}
-
-rgba_color_t unpack_color (window_t *window, void *packed_color) {
-
-    switch (window->backend->type) {
-
-#ifdef ENABLE_BACKEND_X11
-        case BACKEND_X11:
-            return unpack_color_x11 (window->window, packed_color);
-
-#endif
-#ifdef ENABLE_BACKEND_WINDOWS
-        case BACKEND_WINDOWS:
-            return unpack_color_windows (window->window, packed_color);
-
-#endif
-        default:
-            return NULL_COLOR;
-    }
+    return unpack_color (window->image.format,
+                         get_buffer_address (window->image.buffer, position));
 }

@@ -1,11 +1,13 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include <kit/region.h>
+#include <kit/image.h>
+
 #include <stdbool.h>
 
 #include "backend.h"
 #include "event.h"
-#include "util.h"
 
 typedef struct window_t window_t;
 typedef void window_callback_t (window_t *window, event_t event, void *data);
@@ -28,11 +30,8 @@ struct window_t {
     /* the position and size of the buffer on screen */
     region_t region;
 
-    /* the pixel format */
-    size_t bytes_per_pixel;
-
-    /* the raw pixel data */
-    void *pixels;
+    /* the image to paint into the pixel buffer */
+    image_t image;
 
     /* whether the window is currently mapped (on screen) */
     bool mapped;
@@ -61,22 +60,10 @@ void update_window_region (window_t *window, region_t region);
 /* send an event to a window */
 void handle_event (window_t *window, event_t event);
 
-/* get the size of the pixel buffer in bytes */
-int window_buffer_size (window_t *window);
-
-/* get the memory location of a pixel in a pixel buffer */
-void *pixel_address (window_t *window, point_t position);
-
-/* set the value of a pixel to a given rgba color */
-void set_pixel (window_t *window, point_t position, rgba_color_t color);
+/* set the value of a pixel to a given rgb color */
+void set_pixel (window_t *window, vec2_t position, color_t color);
 
 /* retrieve the value of a pixel */
-rgba_color_t get_pixel (window_t *window, point_t position);
-
-/* allocate new memory for a pixel value and fill it with binary packed color data */
-void *pack_color (window_t *window, rgba_color_t color);
-
-/* unpack binary packed color data */
-rgba_color_t unpack_color (window_t *window, void *packed_color);
+color_t get_pixel (window_t *window, vec2_t position);
 
 #endif /* WINDOW_H */

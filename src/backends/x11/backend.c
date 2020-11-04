@@ -297,8 +297,8 @@ void backend_x11_process (backend_x11_t *backend) {
             /* if the window size has changed,
              * treat this as a resize event rather than a move event */
             window_event.type
-                = point_equals (window_event.events.move_resize.new_region.dimensions,
-                                window_event.events.move_resize.old_region.dimensions)
+                = equals_vec2 (window_event.events.move_resize.new_region.dimensions,
+                               window_event.events.move_resize.old_region.dimensions)
                 ? EVENT_MOVE : EVENT_RESIZE;
 
             break;
