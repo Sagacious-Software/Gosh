@@ -158,7 +158,7 @@ void init_window_x11_buffer (window_x11_t *window, region_t region) {
         destroy_window_x11_buffer (window);
 
     /* configure the buffer spec for the new image */
-    window->window->image = make_image (PIXEL_RGBA32, NULL);
+    window->window->image = make_image (PIXEL_BGRA32, NULL);
     window->window->image.buffer = create_buffer (region.dimensions, 4);
 
     /* create the new image matching the window's dimensions */

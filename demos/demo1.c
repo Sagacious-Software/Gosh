@@ -48,7 +48,7 @@ void draw (window_t *window, state_t *state) {
                                        make_color_rgb (noise (),
                                                        noise (),
                                                        noise ())));
-    
+
     /* update the contents of the window */
     update_window (window);
 }

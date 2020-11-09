@@ -290,6 +290,9 @@ void backend_x11_process (backend_x11_t *backend) {
             window_event.events.move_resize.new_region.dimensions.y
                 = x11_event.xconfigure.height;
 
+            /* store the new region */
+            window->window->region = window_event.events.move_resize.new_region;
+
             /* reinitialize the pixel buffer for the new size */
             init_window_x11_buffer (window,
                                     window_event.events.move_resize.new_region);
