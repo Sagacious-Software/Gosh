@@ -6,7 +6,6 @@
 #include <stdbool.h>
 
 #include <gosh/event.h>
-#include <gosh/util.h>
 
 #include "backend.h"
 
@@ -52,11 +51,5 @@ void update_window_windows_region (window_windows_t *window, region_t region);
 
 /* initialize the drawing buffer */
 void init_window_windows_buffer (window_windows_t *window, region_t region);
-
-/* allocate new memory for a pixel value and fill it with binary packed color data */
-void *pack_color_windows (window_windows_t *window, rgba_color_t color);
-
-/* unpack binary packed color data */
-rgba_color_t unpack_color_windows (window_windows_t *window, void *packed_color);
 
 #endif /* WINDOW_WINDOWS_H */

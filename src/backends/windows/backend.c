@@ -41,7 +41,7 @@ LRESULT CALLBACK process_window (HWND handle,
             /* TODO: instead of painting each pixel, do the blit */
             for (x = region.offset.x; x < region.offset.x + region.dimensions.x; x++)
                 for (y = region.offset.y; y < region.offset.y + region.dimensions.y; y++)
-                    SetPixelV (context, x, y, *(((uint32_t *) window->window->pixels) + (x + y * region.dimensions.x)));
+                    SetPixelV (context, x, y, *(((uint32_t *) window->window->image.buffer->data) + (int) (x + y * region.dimensions.x)));
 
             EndPaint (handle, &paint_struct);
 
@@ -96,6 +96,9 @@ LRESULT CALLBACK process_window (HWND handle,
             /* get the new region of the window */
             window_event.events.move_resize.new_region.dimensions.x = LOWORD (long_parameter);
             window_event.events.move_resize.new_region.dimensions.y = HIWORD (long_parameter);
+
+            /* set the new region */
+            window->window->region = window_event.events.move_resize.new_region;
 
             window_event.type = EVENT_RESIZE;
 

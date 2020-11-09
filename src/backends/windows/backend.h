@@ -3,8 +3,6 @@
 
 #include <windows.h>
 
-#include <gosh/util.h>
-
 #define MAX_WINDOWS 256
 
 /* the name of the windows wind wclass to be registered */

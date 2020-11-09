@@ -46,7 +46,7 @@ window_windows_t *create_window_windows (backend_windows_t *backend,
 
 void destroy_window_windows (window_windows_t *window) {
 
-    free (window->window->pixels);
+    destroy_buffer (window->window->image.buffer);
 
     PostQuitMessage (0);
 
@@ -87,45 +87,9 @@ void update_window_windows_region (window_windows_t *window, region_t region) {
 void init_window_windows_buffer (window_windows_t *window, region_t region) {
 
     /* TODO: fifgure out best way to do this ; and do it Right , silly */
-    if (window->window->pixels)
-        free (window->window->pixels);
-    window->window->region = region;
-    window->window->bytes_per_pixel = 4;
-    window->window->pixels
-        = malloc (region.dimensions.x * region.dimensions.y * 4);
-}
+    if (window->window->image.buffer)
+        destroy_buffer (window->window->image.buffer);
 
-void *pack_color_windows (window_windows_t *window, rgba_color_t color) {
-
-    /* TODO: make this actually generic */
-
-    uint8_t *pixel;
-    uint8_t red, green, blue, alpha;
-
-    red   = color.red   * 255;
-    green = color.green * 255;
-    blue  = color.blue  * 255;
-    alpha = color.alpha * 255;
-
-    pixel = malloc (4);
-    pixel[0] = alpha;
-    pixel[1] = blue;
-    pixel[2] = green;
-    pixel[3] = red;
-
-    return (void *) pixel;
-}
-
-rgba_color_t unpack_color_windows (window_windows_t *window, void *packed_color) {
-
-    uint8_t *pixel;
-    rgba_color_t color;
-
-    pixel = (uint8_t *) packed_color;
-    color.alpha = pixel[0] / 255.0;
-    color.blue  = pixel[1] / 255.0;
-    color.green = pixel[2] / 255.0;
-    color.red   = pixel[3] / 255.0;
-
-    return color;
+    window->window->image = make_image (PIXEL_RGBA32, NULL);
+    window->window->image.buffer = create_buffer (region.dimensions, 4);
 }

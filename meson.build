@@ -56,8 +56,9 @@ lib = library('gosh',
                install             : true)
 
 demo1 = executable('gosh_demo1',
-                   sources             : ['demos/demo1.c'],
-                   link_with           : lib,
+                   #sources             : ['demos/demo1.c'],
+                   #link_with           : lib,
+                   sources             : ['demos/demo1.c'] + src_lib,
                    include_directories : inc_dir,
                    dependencies        : deps,
                    c_args              : cargs,
